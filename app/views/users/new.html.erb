@@ -1,25 +1,20 @@
-<% @page_title = "UserAuth | Signup" %>
-				<div class= "Sign_Form">
-					<h1>Sign Up</h1>
-						<%= form_for(@user) do |user| %>
+<% @page_title = "UserAuth | Sign up" %>
+<div class="container">
+	<%= form_for(@user, :html => {:class => "form-signin"}) do |user| %>
+		<h2 class="form-signin-heading">Please sign up</h2>
+		<%= user.text_field :username, :class => "input-block-level", :placeholder => "Username" %>
+		<%= user.text_field :email, :class => "input-block-level", :placeholder => "Email address" %>
+		<%= user.password_field :password, :class => "input-block-level", :placeholder => "Password" %>
+		<%= user.password_field :password_confirmation, :class => "input-block-level", :placeholder => "Password confirmation" %>
+		
+		<%= user.submit :Signup, :class => "btn btn-large btn-primary" %>
+	<% end %>
 
-						<p> Username:</br> <%= user.text_field :username%> </p>
-
-						<p> Email:</br> <%= user.text_field :email%> </p>
-
-						<p> Password:</br> <%= user.password_field :password%></p>
-
-						<p> Password Confirmation:</br> <%= user.password_field :password_confirmation%> </p>
-
-						<%= user.submit :Signup %>
-					<% end %>
-
-					<% if @user.errors.any? %>
-						<ul class="Signup_Errors">
-							<% for message_error in @user.errors.full_messages %>
-							<li>* <%= message_error %></li>
-							<% end %>
-						</ul>
-					<% end %>
-				
+	<% if @user.errors.any? %>
+		<ul class="signup_errors">
+			<% for message_error in @user.errors.full_messages %>
+			<li>* <%= message_error %></li>
+			<% end %>
+		</ul>
+	<% end %>		
 </div>
