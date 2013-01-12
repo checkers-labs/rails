@@ -11,15 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130111235721) do
-
-  create_table "messages", :force => true do |t|
-    t.string   "titre"
-    t.string   "message"
-    t.string   "date"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20130110183117) do
 
   create_table "users", :force => true do |t|
     t.string   "username"
