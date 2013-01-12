@@ -1,5 +1,5 @@
 First::Application.routes.draw do
-  match "signup", :to => "users#new"
+  resources :users
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
