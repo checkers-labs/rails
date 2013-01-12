@@ -1,17 +1,21 @@
 <% @page_title = "UserAuth | Signup" %>
 				<div class= "Sign_Form">
 					<h1>Sign Up</h1>
+<<<<<<< HEAD
 						<%= form_for(@user) do |f| %>
+=======
+						<%= form_for(@user) do |user| %>
+>>>>>>> 75a8f27f7e1578592ed3995f72a72ca2947b5872
 
-						<p> Username:</br> <%= f.text_field :username%> </p>
+						<p> Username:</br> <%= user.text_field :username%> </p>
 
-						<p> Email:</br> <%= f.text_field :email%> </p>
+						<p> Email:</br> <%= user.text_field :email%> </p>
 
-						<p> Password:</br> <%= f.password_field :password%></p>
+						<p> Password:</br> <%= user.password_field :password%></p>
 
-						<p> Password Confirmation:</br> <%= f.password_field :password_confirmation%> </p>
+						<p> Password Confirmation:</br> <%= user.password_field :password_confirmation%> </p>
 
-						<%= f.submit :Signup %>
+						<%= user.submit :Signup %>
 					<% end %>
 
 					<% if @user.errors.any? %>
