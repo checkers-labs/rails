@@ -5,18 +5,16 @@ class UsersController < ApplicationController
   end
   
   def create  
-    @user = User.new(params[:user])
+    @user = User.new(params[:user])    
     
-    respond_to do |format|
-      if @user.save
-        flash[:notice] = "You Signed up successfully"
-        flash[:color]= "valid"
-      else
-        flash[:notice] = "Form is invalid"
-        flash[:color]= "invalid"
-      end
-      render "new"
+    if @user.save
+      flash[:notice] = "You Signed up successfully"
+      flash[:color]= "valid"
+    else
+      flash[:notice] = "Form is invalid"
+      flash[:color]= "invalid"
     end
-  end
+    render "new"
+  end  
   
 end

@@ -1,29 +1,25 @@
 <% @page_title = "UserAuth | Signup" %>
-				<div class= "Sign_Form">
-					<h1>Sign Up</h1>
-<<<<<<< HEAD
-						<%= form_for(@user) do |f| %>
-=======
-						<%= form_for(@user) do |user| %>
->>>>>>> 75a8f27f7e1578592ed3995f72a72ca2947b5872
+<div class= "Sign_Form">
+	<h1>Sign Up</h1>
 
-						<p> Username:</br> <%= user.text_field :username%> </p>
+		<%= form_for(@user) do |user| %>
 
-						<p> Email:</br> <%= user.text_field :email%> </p>
+		<p> Username:</br> <%= user.text_field :username%> </p>
 
-						<p> Password:</br> <%= user.password_field :password%></p>
+		<p> Email:</br> <%= user.text_field :email%> </p>
 
-						<p> Password Confirmation:</br> <%= user.password_field :password_confirmation%> </p>
+		<p> Password:</br> <%= user.password_field :password%></p>
 
-						<%= user.submit :Signup %>
-					<% end %>
+		<p> Password Confirmation:</br> <%= user.password_field :password_confirmation%> </p>
 
-					<% if @user.errors.any? %>
-						<ul class="Signup_Errors">
-							<% for message_error in @user.errors.full_messages %>
-							<li>* <%= message_error %></li>
-							<% end %>
-						</ul>
-					<% end %>
-				
+		<%= user.submit :Signup %>
+	<% end %>
+
+	<% if @user.errors.any? %>
+		<ul class="Signup_Errors">
+			<% for message_error in @user.errors.full_messages %>
+			<li>* <%= message_error %></li>
+			<% end %>
+		</ul>
+	<% end %>
 </div>
