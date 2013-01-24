@@ -1,0 +1,49 @@
+<%= form_for(@user, :html => {:class => "form-signin", :style => "float: right;"}) do |user| %>
+	<h2 class="form-signin-heading">Please sign in</h2>
+	<%= user.text_field :username, :class => "input-block-level", :placeholder => "Username" %>
+	<% if !@user.errors.messages[:username].empty? %>
+		<div class="alert alert-error">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			<ul>
+			<% @user.errors.messages[:username].each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %>
+		    </ul>
+	    </div>
+	<% end %>
+	<%= user.text_field :email, :class => "input-block-level", :placeholder => "Email address" %>
+	<% if !@user.errors.messages[:email].empty? %>
+		<div class="alert alert-error">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			<ul>
+			<% @user.errors.messages[:email].each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %>
+		    </ul>
+	    </div>
+	<% end %>
+	<%= user.password_field :password, :class => "input-block-level", :placeholder => "Password" %>
+	<% if !@user.errors.messages[:password].empty? %>
+		<div class="alert alert-error">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			<ul>
+			<% @user.errors.messages[:password].each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %>
+		    </ul>
+	    </div>
+	<% end %>
+	<%= user.password_field :password_confirmation, :class => "input-block-level", :placeholder => "Password confirmation" %>
+	<% if !@user.errors.messages[:password_confirmation].empty? %>
+		<div class="alert alert-error">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			<ul>
+			<% @user.errors.messages[:password_confirmation].each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %>
+		    </ul>
+	    </div>
+	<% end %>
+	
+	<%= user.submit :class => "btn btn-large btn-primary", :value => "Sign in" %>
+<% end %>
