@@ -1,14 +1,11 @@
-class UsersController < ApplicationController  
-
-  def new
-    @user = User.new
-  end
-  
-  def login
-  end
+class UsersController < ApplicationController
   
   def index
-    @login = User.login(params[:user])
+    @user = User.new(params[:user])
+    render "index"
+  end
+  
+  def signin
     @user = User.new(params[:user])
     
     if @user.save
@@ -21,5 +18,8 @@ class UsersController < ApplicationController
       render "index"
     end
   end    
+  
+  def login
+  end
 
 end
