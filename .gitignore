@@ -27,6 +27,9 @@ capybara-*.html
 /db/*.sqlite3
 /public/system/*
 /coverage/
+/config/database.yml
+/config/Gemfile
+/config/Gemfile.lock
 /spec/tmp/*
 **.orig
 rerun.txt
