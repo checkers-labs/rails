@@ -31,11 +31,11 @@ class UsersController < ApplicationController
     userByName = User.where(:username => @userLogin.username).first()
     if userByName != nil
       pwd = BCrypt::Engine.hash_secret(@userLogin.password, userByName.salt)
-      if @userLogin.password.to_s == pwd.to_s
+      if userByName.encrypted_password == pwd
         # Ajout des infos en session
-        session[:user_id] = @userSignin.id
-        session[:user_name] = @userSignin.username
-        session[:user_email] = @userSignin.email
+        session[:user_id] = @userLogin.id
+        session[:user_name] = @userLogin.username
+        session[:user_email] = @userLogin.email
         redirect_to :controller => "index", :action => "index"
       else
         logger.debug "coucou"
