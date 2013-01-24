@@ -1,26 +1,25 @@
 class UsersController < ApplicationController  
 
   def new
-    @user = User.new    
-   end
+    @user = User.new
+  end
   
-  def create  
-    @user = User.new(params[:user])    
+  def login
+  end
+  
+  def index
+    @login = User.login(params[:user])
+    @user = User.new(params[:user])
     
     if @user.save
-      flash[:notice] = "You Signed up successfully"
-      flash[:color]= "valid"
-      render "login"
+      #flash[:notice] = "You Signed in successfully"
+      #flash[:color]= "valid"
+
     else
-      flash[:notice] = "Form is invalid"
-      flash[:color]= "invalid"
-      render "new"
+      #flash[:notice] = "Form is invalid"
+      #flash[:color]= "invalid"
+      render "index"
     end
-
   end    
-  
-  
-  def login 
 
-  end
 end
