@@ -2,6 +2,7 @@ First::Application.routes.draw do
   resources :users
   match 'signin' => 'users#signin'
   match 'login' => 'users#login'
+  resources :index
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

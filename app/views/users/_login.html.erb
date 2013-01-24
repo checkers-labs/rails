@@ -1,11 +1,11 @@
-<%= form_for(@user, :url => { :action => "login" }, :html => {:class => "form-signin", :style => "float: left;"}) do |user| %>
+<%= form_for(@userLogin, :url => { :action => "login" }, :html => {:class => "form-signin", :style => "float: left;"}) do |user| %>
 	<h2 class="form-signin-heading">Please log in</h2>
 	<%= user.text_field :username, :class => "input-block-level", :placeholder => "Username" %>
-	<% if !@user.errors.messages[:username].empty? %>
+	<% if !@userLogin.errors.messages[:username].empty? %>
 		<div class="alert alert-error">
 			<button class="close" data-dismiss="alert" type="button">×</button>
 			<ul>
-			<% @user.errors.messages[:username].each do |msg| %>
+			<% @userLogin.errors.messages[:username].each do |msg| %>
 		      <li><%= msg %></li>
 		    <% end %>
 		    </ul>
@@ -13,11 +13,11 @@
 	<% end %>
 
 	<%= user.password_field :password, :class => "input-block-level", :placeholder => "Password" %>
-	<% if !@user.errors.messages[:password].empty? %>
+	<% if !@userLogin.errors.messages[:password].empty? %>
 		<div class="alert alert-error">
 			<button class="close" data-dismiss="alert" type="button">×</button>
 			<ul>
-			<% @user.errors.messages[:password].each do |msg| %>
+			<% @userLogin.errors.messages[:password].each do |msg| %>
 		      <li><%= msg %></li>
 		    <% end %>
 		    </ul>
