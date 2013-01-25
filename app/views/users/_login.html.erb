@@ -1,5 +1,13 @@
 <%= form_for(@userLogin, :url => { :action => "login" }, :html => {:class => "form-signin", :style => "float: left;"}) do |user| %>
 	<h2 class="form-signin-heading">Please log in</h2>
+	<% if flash[:notice] %>
+		<div class="alert alert-error">
+			<button class="close" data-dismiss="alert" type="button">×</button>
+			<p>
+			<%= flash[:notice] %>
+		    </p>
+	    </div>
+	<% end %>
 	<%= user.text_field :username, :class => "input-block-level", :placeholder => "Username" %>
 	<% if !@userLogin.errors.messages[:username].empty? %>
 		<div class="alert alert-error">
