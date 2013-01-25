@@ -1,12 +1,11 @@
-class UsersController < ApplicationController  
-
+class UsersController < ApplicationController
   def new
-    @user = User.new    
-   end
-  
-  def create  
-    @user = User.new(params[:user])    
-    
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(params[:user])
+
     if @user.save
       flash[:notice] = "You Signed up successfully"
       flash[:color]= "valid"
@@ -17,10 +16,9 @@ class UsersController < ApplicationController
       render "new"
     end
 
-  end    
-  
-  
-  def login 
+  end
+
+  def login
 
   end
 end
