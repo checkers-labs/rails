@@ -1,7 +1,10 @@
 require 'bcrypt'
 
 class UsersController < ApplicationController
-  def index
+    
+  before_filter :login_required, :only=>['logout']
+    
+  def index        
     @userLogin = User.new()
     @userSignin = User.new()
 
@@ -18,7 +21,6 @@ class UsersController < ApplicationController
       session[:user_name] = @userSignin.username
       session[:user_email] = @userSignin.email
       redirect_to :controller => "index", :action => "index"
-
     else
       render "index"
     end
@@ -28,14 +30,14 @@ class UsersController < ApplicationController
     @userLogin = User.new(params[:user])
     @userSignin = User.new()
 
-    userByName = User.where(:username => @userLogin.username).first()
+    userByName = User.find(:first, :conditions=>["username = ?", @userLogin.username])
     if userByName != nil
       pwd = BCrypt::Engine.hash_secret(@userLogin.password, userByName.salt)
       if userByName.encrypted_password == pwd
         # Ajout des infos en session
-        session[:user_id] = @userLogin.id
-        session[:user_name] = @userLogin.username
-        session[:user_email] = @userLogin.email
+        session[:user_id] = userByName.id
+        session[:user_name] = userByName.username
+        session[:user_email] = userByName.email
         redirect_to :controller => "index", :action => "index"
       else
         flash[:notice] = "Invalid login or password"
@@ -45,7 +47,13 @@ class UsersController < ApplicationController
       flash[:notice] = "Invalid login or password"
       render "index"
     end
-
+  end
+  
+  def logout
+    session[:user_id] = nil
+    session[:user_name] = nil
+    session[:user_email] = nil
+    redirect_to :controller => "users", :action => "index"
   end
 
 end
