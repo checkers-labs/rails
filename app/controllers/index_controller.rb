@@ -5,5 +5,11 @@ class IndexController < ApplicationController
   def index
     render "index"
   end
+  
+  
+  def test
+  render :text => "Hello, world!",
+         :content_type => "application/json"
+  end
 
 end
