@@ -12,7 +12,6 @@ class UsersController < ApplicationController
   end
 
   def signin
-    @userLogin = User.new()
     @userSignin = User.new(params[:user])
 
     if @userSignin.save
@@ -22,13 +21,13 @@ class UsersController < ApplicationController
       session[:user_email] = @userSignin.email
       redirect_to :controller => "index", :action => "index"
     else
+      @userLogin = User.new()
       render "index"
     end
   end
 
   def login
     @userLogin = User.new(params[:user])
-    @userSignin = User.new()
 
     userByName = User.find(:first, :conditions=>["username = ?", @userLogin.username])
     if userByName != nil
@@ -39,12 +38,10 @@ class UsersController < ApplicationController
         session[:user_name] = userByName.username
         session[:user_email] = userByName.email
         redirect_to :controller => "index", :action => "index"
-      else
-        flash[:notice] = "Invalid login or password"
-        render "index"
       end
     else
       flash[:notice] = "Invalid login or password"
+      @userSignin = User.new()
       render "index"
     end
   end
