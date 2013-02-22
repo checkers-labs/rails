@@ -38,6 +38,10 @@ class UsersController < ApplicationController
         session[:user_name] = userByName.username
         session[:user_email] = userByName.email
         redirect_to :controller => "index", :action => "index"
+      else
+        flash[:notice] = "Invalid login or password"
+        @userSignin = User.new()
+        render "index"
       end
     else
       flash[:notice] = "Invalid login or password"
