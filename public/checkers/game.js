@@ -14,19 +14,19 @@ requirejs.config({
 // Start the main app logic.
 requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map'],
 function (kinetic, c, Resource, Map) {
-    Resource.init(function(){
-        Map.init();
-        
-        var scene = new Kinetic.Stage({
-            container: "kinetic",
-            width: Map.getWidth() * c.WIDTH_TILE,
-            height: Map.getHeight() * c.HEIGHT_TILE
+    Resource.init(function() {
+        Map.init(function() {
+            var scene = new Kinetic.Stage({
+                container: "kinetic",
+                width: Map.getWidth() * c.WIDTH_TILE,
+                height: Map.getHeight() * c.HEIGHT_TILE
+            });
+            
+            Map.drawMap();
+            Map.drawGrid();
+            
+            scene.add(Map.layerMap);
+            scene.add(Map.layerPawn);
         });
-        
-        Map.drawMap();
-        Map.drawGrid();
-        
-        scene.add(Map.layerMap);
-        scene.add(Map.layerPawn);
     });
 });

@@ -8,8 +8,8 @@ define([], function() {
             HEIGHT_TILE     : 60,
             WIDTH_PAWN      : 40,
             HEIGHT_PAWN     : 40,
-            MARGIN_WIDTH    : (this.WIDTH_TILE - this.WIDTH_PAWN)/2,
-            MARGIN_HEIGHT   : (this.HEIGHT_TILE - this.HEIGHT_PAWN)/2,
+            MARGIN_WIDTH    : (60 - 40)/2,
+            MARGIN_HEIGHT   : (60 - 40)/2,
 
             //Ressources
             RESOURCES: { 

@@ -2,7 +2,7 @@
  * class Pawn (pion)
  * @param color
  */
-define(['require', 'config/constants', 'utils/Resource', 'gui/Map'], function(require, c, Resource, Map) {
+define(['config/constants', 'utils/Resource', 'gui/Map'], function(c, Resource, Map) {
     function Pawn (color) {
         var self = this;
         this.selected = false;
@@ -65,7 +65,6 @@ define(['require', 'config/constants', 'utils/Resource', 'gui/Map'], function(re
                 }
             });
         }
-        debugger;
         Map.layerPawn.add(this.kineticImg);
     };
     

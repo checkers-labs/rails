@@ -5,23 +5,27 @@
  * 		0 ==> noir
  * 		1 ==> blanc
  */
-define(['config/constants', 'utils/Resource', 'utils/Util', 'class/Pawn'], function(c, Resource, Util, Pawn) {
+define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function(require, c, Resource, Util) {
         return {
-            init: function() {
-                this.mapData = JSON.parse(Util.getMapJSON("damier"));
-                
-                this.layerMap = new Kinetic.Layer();
-                this.layerPawn = new Kinetic.Layer();                
-                
-                this.grid = new Array(8,8);
-                this.grid[0] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
-                this.grid[1] = new Array(1, new Pawn(0), 1,new Pawn(0), 1, new Pawn(0), 1, new Pawn(0));
-                this.grid[2] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
-                this.grid[3] = new Array(1, 0, 1, 0, 1, 0, 1, 0);
-                this.grid[4] = new Array(0, 1, 0, 1, 0, 1, 0, 1);
-                this.grid[5] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
-                this.grid[6] = new Array(new Pawn(1), 1,new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1);
-                this.grid[7] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
+            init: function(callback) {
+                var self = this;
+                require(['class/Pawn'],function(Pawn){
+                    self.mapData = JSON.parse(Util.getMapJSON("damier"));
+                    
+                    self.layerMap = new Kinetic.Layer();
+                    self.layerPawn = new Kinetic.Layer();                
+                    
+                    self.grid = new Array(8,8);
+                    self.grid[0] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
+                    self.grid[1] = new Array(1, new Pawn(0), 1,new Pawn(0), 1, new Pawn(0), 1, new Pawn(0));
+                    self.grid[2] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
+                    self.grid[3] = new Array(1, 0, 1, 0, 1, 0, 1, 0);
+                    self.grid[4] = new Array(0, 1, 0, 1, 0, 1, 0, 1);
+                    self.grid[5] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
+                    self.grid[6] = new Array(new Pawn(1), 1,new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1);
+                    self.grid[7] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
+                    callback();
+                });
             },
             drawMap: function() {
                 var self = this;
