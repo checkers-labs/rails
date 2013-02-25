@@ -7,25 +7,21 @@
  */
 define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function(require, c, Resource, Util) {
         return {
-            init: function(callback) {
-                var self = this;
-                require(['class/Pawn'],function(Pawn){
-                    self.mapData = JSON.parse(Util.getMapJSON("damier"));
-                    
-                    self.layerMap = new Kinetic.Layer();
-                    self.layerPawn = new Kinetic.Layer();                
-                    
-                    self.grid = new Array(8,8);
-                    self.grid[0] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
-                    self.grid[1] = new Array(1, new Pawn(0), 1,new Pawn(0), 1, new Pawn(0), 1, new Pawn(0));
-                    self.grid[2] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
-                    self.grid[3] = new Array(1, 0, 1, 0, 1, 0, 1, 0);
-                    self.grid[4] = new Array(0, 1, 0, 1, 0, 1, 0, 1);
-                    self.grid[5] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
-                    self.grid[6] = new Array(new Pawn(1), 1,new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1);
-                    self.grid[7] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
-                    callback();
-                });
+            init: function(Pawn) {
+                this.mapData = JSON.parse(Util.getMapJSON("damier"));
+                
+                this.layerMap = new Kinetic.Layer();
+                this.layerPawn = new Kinetic.Layer();                
+                
+                this.grid = new Array(8,8);
+                this.grid[0] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
+                this.grid[1] = new Array(1, new Pawn(0), 1,new Pawn(0), 1, new Pawn(0), 1, new Pawn(0));
+                this.grid[2] = new Array(new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1, new Pawn(0), 1);
+                this.grid[3] = new Array(1, 0, 1, 0, 1, 0, 1, 0);
+                this.grid[4] = new Array(0, 1, 0, 1, 0, 1, 0, 1);
+                this.grid[5] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
+                this.grid[6] = new Array(new Pawn(1), 1,new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1);
+                this.grid[7] = new Array(1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1), 1, new Pawn(1));
             },
             drawMap: function() {
                 var self = this;
@@ -131,7 +127,7 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                 }
                 return false;
             },
-            isMovePossible: function() {
+            isMovePossible: function(jump, selectedPawn, posClick) {
                 var posX = selectedPawn.posX,
                 posY = selectedPawn.posY;
                 // si c'est un pion de couleur rouge ou si c'est une dame

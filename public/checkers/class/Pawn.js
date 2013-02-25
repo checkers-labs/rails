@@ -2,7 +2,7 @@
  * class Pawn (pion)
  * @param color
  */
-define(['config/constants', 'utils/Resource', 'gui/Map'], function(c, Resource, Map) {
+define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function(c, Resource, Util, Map) {
     function Pawn (color) {
         var self = this;
         this.selected = false;
