@@ -1,1 +1,3 @@
-Web site in rails that use socket to play checkers with anyone
+Web site in rails that use AJAX request to play checkers with anyone.
+**UPDATE**
+Now the checker game in html5 using canvas is integrate in the index page when you are connected.
