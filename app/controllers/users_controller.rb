@@ -51,9 +51,7 @@ class UsersController < ApplicationController
   end
   
   def logout
-    session[:user_id] = nil
-    session[:user_name] = nil
-    session[:user_email] = nil
+    reset_session
     redirect_to :controller => "users", :action => "index"
   end
 

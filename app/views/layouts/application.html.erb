@@ -8,28 +8,27 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+    
 <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">Checkers lab</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><%= link_to "Home", :controller => "index", :action => "index" %></li>
-              <li><%= link_to "High Score" %></li>
-              <li><%= link_to "Logout", :controller => "users", :action => "logout" %></li>
-            </ul>
-          </div>
-        </div>
+  <div class="navbar-inner">
+    <div class="container">
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="brand" href="#">Checkers lab</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active"><%= link_to "Home", :controller => "index", :action => "index" %></li>
+          <li><%= link_to "High Score" %></li>
+          <li><%= link_to "Logout", :controller => "users", :action => "logout" %></li>
+        </ul>
       </div>
     </div>
+  </div>
 </div>
-	
+
 	<%= yield %>
 	
 </body>
