@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-First::Application.config.session_store :redis_store, key: '_first_session'
+First::Application.config.session_store :redis_store , key: '_first_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
