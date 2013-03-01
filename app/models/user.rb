@@ -1,9 +1,7 @@
 require 'bcrypt'
 
 class User < ActiveRecord::Base
-  
-      has_one :game
-    
+
       before_save :hash_password  
   
       attr_accessible :username, :email, :password, :password_confirmation
