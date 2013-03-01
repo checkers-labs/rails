@@ -11,19 +11,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>@twitter</td>
-                </tr>
+                <% @sessionRedis.each do |user| %>
+                    <tr>
+                        <td>
+                            <%= link_to user["user_name"], { :controller => "index", :action => "index", :id => user["user_id"] } %>
+                        </td>
+                    </tr>
+                <% end %>
               </tbody>
             </table>
           </p>
-          <p><%= link_to "Jouer »", { :controller => "index", :action => "index" }, :class => "btn" %></p>
         </div>
         <div class="span4">
           <h2>Jouer contre une IA</h2>
