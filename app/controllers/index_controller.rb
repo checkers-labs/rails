@@ -8,8 +8,13 @@ class IndexController < ApplicationController
   
   
   def test
-  render :text => "Hello, world!",
-         :content_type => "application/json"
+    render :text => "Hello, world!", :content_type => "text/plain"
+  end
+  
+  def createGame
+      #params['id']
+      
+     render :text => session, :content_type => "text/plain"
   end
 
 end

@@ -4,7 +4,7 @@ First::Application.routes.draw do
     match 'login' => 'users#login'
     match 'logout' => 'users#logout'    
   resources :index
-    match 'test' => 'index#test'
+    match 'createGame/:id' => 'index#createGame'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
