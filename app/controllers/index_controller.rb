@@ -12,9 +12,24 @@ class IndexController < ApplicationController
   end
   
   def createGame
-      #params['id']
-      $redis.set('chunky', 'bacon')
-     render :text => $redis.keys('session:*'), :content_type => "text/plain"
+      id = "invitation:#{params[:id]}"
+      $redis.set(id,session[:user_name])
+     render :text => 'work', :content_type => "text/plain"
+  end
+  
+  def waitForInvite  
+    isInvited = false 
+    for i in 0..50
+
+        result = $redis.get("invitation:#{session[:user_id]}")
+        if (result!=nil)
+          isInvited=true
+          break
+        end               
+        sleep 1        
+     end
+     
+       render :text => isInvited, :content_type => "text/plain"
   end
 
 end
