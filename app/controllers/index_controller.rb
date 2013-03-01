@@ -13,8 +13,8 @@ class IndexController < ApplicationController
   
   def createGame
       #params['id']
-      
-     render :text => session, :content_type => "text/plain"
+      $redis.set('chunky', 'bacon')
+     render :text => $redis.keys('session:*'), :content_type => "text/plain"
   end
 
 end
