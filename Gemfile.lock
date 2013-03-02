@@ -125,6 +125,7 @@ DEPENDENCIES
   bcrypt-ruby
   coffee-rails (~> 3.2.1)
   jquery-rails
+  json
   pg
   rails (= 3.2.10)
   redis-rails
