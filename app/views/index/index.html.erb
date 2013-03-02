@@ -14,7 +14,7 @@
                 <% @sessionRedis.each do |user| %>
                     <tr>
                         <td>
-                            <%= link_to user["user_name"], { :controller => "index", :action => "index", :id => user["user_id"] } %>
+                            <%= link_to user["user_name"], { :controller => "index", :action => "sendInvite", :id => user["user_id"] }, :class => "ajax" %>
                         </td>
                     </tr>
                 <% end %>
@@ -34,6 +34,8 @@
         </div>
       </div>
 </div>
+
+<%= javascript_include_tag "index" %>
 
 <!--Salut, <%= session[:user_name] %>
 <br>

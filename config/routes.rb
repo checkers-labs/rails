@@ -4,8 +4,9 @@ First::Application.routes.draw do
     match 'login' => 'users#login'
     match 'logout' => 'users#logout'    
   resources :index
-    match 'createGame/:id' => 'index#createGame'
-    match 'waitForInvite' => 'index#waitForInvite'
+    match 'sendInvite/:id' => 'index#sendInvite'
+    match 'cancelInvite' => 'index#cancelInvite'
+    match 'isInvited' => 'index#isInvited'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
