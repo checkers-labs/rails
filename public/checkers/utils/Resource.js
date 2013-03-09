@@ -2,7 +2,7 @@ define(['config/constants'], function(c) {
         return {
             images: {}, 
             
-            init: function(callback) {      
+            init: function(callback) { 
                 var totalResource = 0,
                 loadedImages = 0;
                 
