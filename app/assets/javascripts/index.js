@@ -4,32 +4,34 @@ function waitForInvite() {
         url: "/wait",
         dataType: "json",
         success: function ( data, textStatus, jqXHR ) {
-            if (data != false) {
-                if (confirm("Vous avez une invitation de la part de "+data[1]+"\n\nVoulez vous l'accepter ?")==true) {
-                	$.ajax({
-					   type: "GET",
-				        url: "/acceptInvite",
-				        dataType: "json",
-				        async: false,
-                        data: { id: data[0] },
+            if(data[0] == 'invite') {
+                if (confirm("Vous avez une invitation de la part de "+data[2]+"\n\nVoulez vous l'accepter ?")==true) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/acceptInvite",
+                        dataType: "json",
+                        async: false,
+                        data: { id: data[1] },
                         success: function ( data, textStatus, jqXHR ) {
-                        	window.location='/game'
+                            window.location='/game'
                         }
-				      });                	
+                    });
                 } else {
                     $.ajax({
                         type: "GET",
                         url: "/cancelInvite",
                         async: false,
-                        data: { id: data[0] },
+                        data: { id: data[1] },
                         success: function ( data, textStatus, jqXHR ) {
                         }
                     });
                 }
+            } else if(data[0] == 'game') {
+                window.location='/game'
             }
         },
         complete: function ( jqXHR, textStatus ) {
-            setTimeout(function () { waitForInvite(); }, 9000);
+            setTimeout(function () { waitForInvite(); }, 3000);
         }
       });
 }

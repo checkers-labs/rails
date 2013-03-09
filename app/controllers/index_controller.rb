@@ -32,13 +32,16 @@ class IndexController < ApplicationController
     result = false
     key = $redis.keys("invitation:from*to#{session[:user_id]}")
       if (key.any? != false)
-        result = $redis.get(key)
+        redis = JSON.parse($redis.get(key))
+        result = ['invite', redis[0], redis[1]]
       else
         key = $redis.keys("game:from#{session[:user_id]}to*")
       end
       
       if (result == false && key.any? != false)
-        result = $redis.get(key)
+        redis = JSON.parse($redis.get(key))
+        result = ['game', redis[0], redis[1]].to_json
+        session[:game] = key
       end
     render :text => result, :content_type => "text/plain"
   end
