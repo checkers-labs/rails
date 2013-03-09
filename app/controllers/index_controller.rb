@@ -4,7 +4,7 @@ class IndexController < ApplicationController
   
   before_filter :login_required
   
-  def index
+  def index    
     @sessionRedis = Array.new;
     $redis.keys('session:*').each do |id|
       @sessionRedis.push(Marshal.load($redis.get(id)))
