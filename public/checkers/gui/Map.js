@@ -44,9 +44,26 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                              }
                           });
                         
-                        tileset.on('click', function() {
+                        tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
                             console.log('selectedPawn:',selectedPawn);
+                            function sendMove (posBefore,posAfter,posTaken) {
+                               $.ajax({
+                               type: "POST",
+                                url: "/setMove",
+                                dataType: "json",
+                                async: false,
+                                data: { pawnBefore: posBefore,
+                                        pawnAfter: posAfter,
+                                        take:posTaken
+                                        },
+                                success: function ( data, textStatus, jqXHR ) {
+                                    window.location='/game'
+                                }
+                              });  
+                            }
+                                              
+                            
                             if (!selectedPawn) {
                                 console.log('no selected pawn');
                             } else {
@@ -58,12 +75,15 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
-                                    selectedPawn.move(this.getX(), this.getY());
+                                    selectedPawn.move(this.getX(), this.getY());                                    
+                                    sendMove([selectedPawn.posX,selectedPawn.posY],[this.getX(), this.getY()]);
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
                                     selectedPawn.move(this.getX(), this.getY());
+                                    sendMove([selectedPawn.posX,selectedPawn.posY],[this.getX(), this.getY()],[move.posX,move.posY]);
                                     move.del();
-                                }
+                                }                               
+                                
                             }
                         });
                         

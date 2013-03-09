@@ -16,10 +16,17 @@ class GameController < ApplicationController
     
   def getMove
     logger.debug('hello')  
+    render :text => true, :content_type => "text/plain"
   end
   
   def setMove
     logger.debug('hello')
+    if(defined?(params[:take]))
+      logger.debug('not taken')
+    elsif
+      logger.debug('taken')
+    end
+    render :text => true, :content_type => "text/plain"
   end
 
   
