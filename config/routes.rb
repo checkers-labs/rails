@@ -7,9 +7,9 @@ First::Application.routes.draw do
     match 'sendInvite/:id' => 'index#sendInvite'
     match 'cancelInvite' => 'index#cancelInvite'
     match 'wait' => 'index#wait'
-    match 'acceptInvite' => 'index#acceptInvite'
   resources :game
-    match 'game' => 'index#index'
+    match 'game' => 'game#index'
+    match 'acceptInvite' => 'game#acceptInvite'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

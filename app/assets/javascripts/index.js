@@ -6,7 +6,16 @@ function waitForInvite() {
         success: function ( data, textStatus, jqXHR ) {
             if (data != false) {
                 if (confirm("Vous avez une invitation de la part de "+data[1]+"\n\nVoulez vous l'accepter ?")==true) {
-                    console.log('ok');
+                	$.ajax({
+					   type: "GET",
+				        url: "/acceptInvite",
+				        dataType: "json",
+				        async: false,
+                        data: { id: data[0] },
+                        success: function ( data, textStatus, jqXHR ) {
+                        	window.location='/game'
+                        }
+				      });                	
                 } else {
                     $.ajax({
                         type: "GET",
@@ -20,13 +29,13 @@ function waitForInvite() {
             }
         },
         complete: function ( jqXHR, textStatus ) {
-            setTimeout(function () { waitForInvite(); }, 3000);
+            setTimeout(function () { waitForInvite(); }, 9000);
         }
       });
 }
 
 $(document).ready(function() {
-    waitForInvite();
+    waitForInvite();    
 });
 
 $(".ajax").click(function(event) {
