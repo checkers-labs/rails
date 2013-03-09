@@ -10,6 +10,8 @@ First::Application.routes.draw do
   resources :game
     match 'game' => 'game#index'
     match 'acceptInvite' => 'game#acceptInvite'
+    match 'setMove' => 'game#setMove'
+    match 'getMove' => 'game#getMove'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
