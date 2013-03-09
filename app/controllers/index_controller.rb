@@ -28,13 +28,19 @@ class IndexController < ApplicationController
     render :nothing => true
   end
   
-  def isInvited
-    isInvited = false
+  def wait
+    result = false
     key = $redis.keys("invitation:from*to#{session[:user_id]}")
       if (key.any? != false)
-        isInvited = $redis.get(key)
-      end      
-    render :text => isInvited, :content_type => "text/plain"
+        result = $redis.get(key)
+      else
+        key = $redis.keys("game:from#{session[:user_id]}to*")
+      end
+      
+      if (result == false && key.any? != false)
+        result = $redis.get(key)
+      end
+    render :text => result, :content_type => "text/plain"
   end
 
 end

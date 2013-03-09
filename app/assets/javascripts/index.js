@@ -1,7 +1,7 @@
 function waitForInvite() {
     $.ajax({
         type: "GET",
-        url: "/isInvited",
+        url: "/wait",
         dataType: "json",
         success: function ( data, textStatus, jqXHR ) {
             if (data != false) {
