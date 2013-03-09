@@ -3,7 +3,8 @@ define(['config/constants'], function(c) {
             images: {}, 
             
             init: function(callback) { 
-                var totalResource = 0,
+                var self = this,
+                totalResource = 0,
                 loadedImages = 0;
                 
                 for(var index in c.RESOURCES){
@@ -18,7 +19,6 @@ define(['config/constants'], function(c) {
                             callback();
                         }
                     };
-                    
                     this.images[index].src = c.RESOURCES[index];   
                 }
             }
