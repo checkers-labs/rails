@@ -15,7 +15,7 @@ requirejs.config({
 requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'class/Pawn'],
 function (kinetic, c, Resource, Map, Pawn) {
     $.ajaxSetup({
-        headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'}
+        headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
     Resource.init(function() {
         Map.init(Pawn);
