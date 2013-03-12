@@ -49,15 +49,17 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                             console.log('selectedPawn:',selectedPawn);
                             function sendMove (posBefore,posAfter,posTaken) {                                
                                $.ajax({
-                               type: "POST",
-                                url: "/setMove",
-                                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, 
-                                dataType: "json",
-                                async: false,
-                                data: { pawnBefore: posBefore,
-                                        pawnAfter: posAfter,
-                                        take:posTaken
-                                        }                             
+                                   type: "POST",
+                                   url: "/setMove",
+                                   dataType: "json",
+                                   async: false,
+                                   /*beforeSend: function(jqXHR, settings) {
+                                       jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+                                   },*/
+                                   data: { pawnBefore: posBefore,
+                                       pawnAfter: posAfter,
+                                       take:posTaken
+                                   }                             
                               });  
                             }
                                               

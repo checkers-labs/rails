@@ -14,6 +14,9 @@ requirejs.config({
 // Start the main app logic.
 requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'class/Pawn'],
 function (kinetic, c, Resource, Map, Pawn) {
+    $.ajaxSetup({
+        headers: {'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'}
+    });
     Resource.init(function() {
         Map.init(Pawn);
         var scene = new Kinetic.Stage({
