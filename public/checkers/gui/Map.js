@@ -58,20 +58,19 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                        take:posTaken
                                    },
                                    success:function(){
-                                       //todo
-                                       if(typeof take=='undefined'){
+                                       // si on a pas pris de pion
+                                       if(typeof take=='undefined') {
                                           Util.getMove();
-                                       }else {
-                                           // if(canTake){
-                                               // playAgain()
-                                           // }else{
-                                               // nextPlayer();
-                                           // }
-                                       }                                       
+                                       } else {
+                                           // si on peut pas bouffer on change de tour
+                                           if(!self.mustWeMakeJump(window.turn)){
+                                               if (window.turn == 1) { window.turn=0; }
+                                               else { window.turn=1; }
+                                           }
+                                       }                                    
                                    }                          
                               });  
                             }
-                                              
                             
                             if (!selectedPawn) {
                                 console.log('no selected pawn');
@@ -91,8 +90,7 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                     selectedPawn.move(this.getX(), this.getY());
                                     sendMove([selectedPawn.posX,selectedPawn.posY],[this.getX(), this.getY()],[move.posX,move.posY]);
                                     move.del();
-                                }                               
-                                
+                                }
                             }
                         });
                         
@@ -126,14 +124,16 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                 }
                 return false;
             }, 
-            mustWeMakeJump: function() {
+            mustWeMakeJump: function(color) {
+                color = typeof color !== 'undefined' ? color : false;
                 for(var i = 0, l = this.grid.length ; i < l ; i++) {
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
                         if (typeof this.grid[i][j] == "object") {
                             var selectedPawn = this.grid[i][j];
                             // si c'est un pion de couleur rouge ou si c'est une dame
-                            if (selectedPawn.color == 0 || selectedPawn.queen) {
+                            if ((color == false && (selectedPawn.color == 0 || selectedPawn.queen))
+                                    || color == 0 && (selectedPawn.color == 0 || selectedPawn.queen)) {
                                 // on regarde si on peut manger en bas à gauche
                                 if(selectedPawn.isJumpBL(selectedPawn)) {
                                    return true;
@@ -142,7 +142,8 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                     return true;
                                 }
                             }
-                            if (selectedPawn.color == 1 || selectedPawn.queen) {
+                            if ((color == false && (selectedPawn.color == 1 || selectedPawn.queen))
+                                    || color == 1 && (selectedPawn.color == 1 || selectedPawn.queen)) {
                                 // on regarde si on peut manger en haut à gauche
                                 if(selectedPawn.isJumpTL(selectedPawn)) {
                                    return true;

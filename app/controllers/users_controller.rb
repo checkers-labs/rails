@@ -52,6 +52,7 @@ class UsersController < ApplicationController
   
   def logout
     reset_session
+    cookies.delete :player
     redirect_to :controller => "users", :action => "index"
   end
 
