@@ -42,6 +42,10 @@ class IndexController < ApplicationController
         redis = JSON.parse($redis.get(key))
         result = ['game', redis[0], redis[1]].to_json
         session[:game] = key
+        cookies[:player] = {
+          :value => 1,
+          :expires => 2.hour.from_now
+        }
       end
     render :text => result, :content_type => "text/plain"
   end

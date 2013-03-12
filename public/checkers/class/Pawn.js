@@ -13,16 +13,19 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         
         this.kineticImg = new Kinetic.Image();
         this.kineticImg.on('click', function() {
-            var selectedPawn = Map.getSelectedPawn();
-            if (!selectedPawn || selectedPawn == self) {
-                if (self.selected == true) {
-                    self.selected = false;
-                    this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                    Map.layerPawn.draw();
-                } else {
-                    self.selected = true;
-                    this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                    Map.layerPawn.draw();
+            //check si c'est notre couleur de pion
+            if(document.cookie.split('=')[1] == self.color) {
+                var selectedPawn = Map.getSelectedPawn();
+                if (!selectedPawn || selectedPawn == self) {
+                    if (self.selected == true) {
+                        self.selected = false;
+                        this.setImage(Resource.images.RESOURCE_PAWN_OVER);
+                        Map.layerPawn.draw();
+                    } else {
+                        self.selected = true;
+                        this.setImage(Resource.images.RESOURCE_PAWN_OVER);
+                        Map.layerPawn.draw();
+                    }
                 }
             }
         });
