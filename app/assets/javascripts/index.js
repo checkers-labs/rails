@@ -13,7 +13,7 @@ function waitForInvite() {
                         async: false,
                         data: { id: data[1] },
                         success: function ( data, textStatus, jqXHR ) {
-                            window.location='/game'
+                            window.location='/game';
                         }
                     });
                 } else {

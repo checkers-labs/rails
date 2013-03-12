@@ -17,6 +17,7 @@ function (kinetic, c, Resource, Map, Pawn) {
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
+    window.turn = 0;
     Resource.init(function() {
         Map.init(Pawn);
         var scene = new Kinetic.Stage({
