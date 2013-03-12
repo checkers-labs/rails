@@ -1,5 +1,6 @@
 define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
-        return {
+        
+        return {            
             getMapJSON: function(name) {
                 var xhr = oXHR.getXMLHttpRequest();
                 xhr.open("GET", '/checkers/config/maps/' + name + '.json', false);
@@ -16,6 +17,22 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
             posToCoordinate: function(x, y) {
                 var coordinate = new Array(x*c.WIDTH_TILE, y*c.HEIGHT_TILE);
                 return coordinate;
+            },
+            getMove:function(){
+                var self=this;
+                   $.ajax({
+                       type: "GET",
+                       url: "/getMove",
+                       dataType: "json",
+                       async: false,
+                       success:function(data){
+                            if(data){
+                                debugger
+                            }else{                                
+                               setTimeout(function () { self.getMove(); }, 3000); 
+                            }
+                       }     
+                   });
             }
         };
     }
