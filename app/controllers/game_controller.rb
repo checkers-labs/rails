@@ -17,9 +17,10 @@ class GameController < ApplicationController
   def getMove
     logger.debug('hello')
     moves = JSON.parse($redis.get(session[:game]))
-    if( moves.length > 3)
+    if( moves.length > 3 && cookies[:player] != moves[2])
       moves.delete_at(1)
       moves.delete_at(0)
+      moves.delete_at(2)
       render :text => moves, :content_type => "text/plain"
     else
       render :text => false, :content_type => "text/plain"
