@@ -53,9 +53,6 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                    url: "/setMove",
                                    dataType: "json",
                                    async: false,
-                                   /*beforeSend: function(jqXHR, settings) {
-                                       jqXHR.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-                                   },*/
                                    data: { pawnBefore: posBefore,
                                        pawnAfter: posAfter,
                                        take:posTaken
