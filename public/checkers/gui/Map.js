@@ -47,19 +47,17 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
                             console.log('selectedPawn:',selectedPawn);
-                            function sendMove (posBefore,posAfter,posTaken) {
+                            function sendMove (posBefore,posAfter,posTaken) {                                
                                $.ajax({
                                type: "POST",
                                 url: "/setMove",
+                                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, 
                                 dataType: "json",
                                 async: false,
                                 data: { pawnBefore: posBefore,
                                         pawnAfter: posAfter,
                                         take:posTaken
-                                        },
-                                success: function ( data, textStatus, jqXHR ) {
-                                    window.location='/game'
-                                }
+                                        }                             
                               });  
                             }
                                               

@@ -8,9 +8,9 @@ class GameController < ApplicationController
     key = $redis.keys("invitation:from#{params[:id]}to*")
     $redis.del(key)   
     game = "game:from#{params[:id]}to#{session[:user_id]}"   
-    userJson = [session[:user_id], Integer(params[:id])].to_json
+    userGame = [session[:user_id], Integer(params[:id])].to_json
     session[:game]=game
-    $redis.set(game,userJson)
+    $redis.set(game,userGame)
     render :text => true, :content_type => "text/plain"
   end
     
@@ -20,9 +20,13 @@ class GameController < ApplicationController
   end
   
   def setMove
-    logger.debug('hello')
-    if(defined?(params[:take]))
-      logger.debug('not taken')
+    logger.debug('hello set move')
+    if(params[:take].nil?)     
+      user = JSON.parse($redis.get(session[:game]))
+      user[2]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
+      user[3]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]
+      $redis.set(session[:game],user.to_json)
+      logger.debug(user)
     elsif
       logger.debug('taken')
     end
