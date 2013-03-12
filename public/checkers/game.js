@@ -12,12 +12,15 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'class/Pawn'],
-function (kinetic, c, Resource, Map, Pawn) {
+requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'class/Pawn', 'utils/Util'],
+function (kinetic, c, Resource, Map, Pawn, Util) {
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
     window.turn = 0;
+    if(document.cookie.split('=')[1] == 1) {
+        Util.getMove();
+    }
     Resource.init(function() {
         Map.init(Pawn);
         var scene = new Kinetic.Stage({
