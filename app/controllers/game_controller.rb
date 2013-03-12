@@ -15,8 +15,9 @@ class GameController < ApplicationController
   end
     
   def getMove
-    logger.debug('hello')  
-    render :text => true, :content_type => "text/plain"
+    logger.debug('hello')
+    moves = JSON.parse($redis.get(session[:game]))
+    render :text => false, :content_type => "text/plain"
   end
   
   def setMove

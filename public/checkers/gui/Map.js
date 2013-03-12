@@ -56,7 +56,19 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                    data: { pawnBefore: posBefore,
                                        pawnAfter: posAfter,
                                        take:posTaken
-                                   }                             
+                                   },
+                                   success:function(){
+                                       //todo
+                                       if(typeof take=='undefined'){
+                                          Util.getMove();
+                                       }else {
+                                           // if(canTake){
+                                               // playAgain()
+                                           // }else{
+                                               // nextPlayer();
+                                           // }
+                                       }                                       
+                                   }                          
                               });  
                             }
                                               

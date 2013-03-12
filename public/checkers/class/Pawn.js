@@ -94,7 +94,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
     };
     
     Pawn.prototype.delStroke = function() {
-        this.setImage(Resource.images.RESOURCE_PAWN);
+        this.kineticImg.setImage(Resource.images.RESOURCE_PAWN);
         Map.layerPawn.draw();
     };
     
