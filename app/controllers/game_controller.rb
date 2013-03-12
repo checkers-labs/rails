@@ -20,16 +20,15 @@ class GameController < ApplicationController
   end
   
   def setMove
-    logger.debug('hello set move')
-    if(params[:take].nil?)     
-      user = JSON.parse($redis.get(session[:game]))
-      user[2]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
-      user[3]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]
-      $redis.set(session[:game],user.to_json)
-      logger.debug(user)
+    user = JSON.parse($redis.get(session[:game]))
+    user[2]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
+    user[3]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]
+    if(params[:take].nil?)
+      user = user.slice(0,4)      
     elsif
-      logger.debug('taken')
+      user[4]=[Integer(params[:take][0]),Integer(params[:take][1])]
     end
+    $redis.set(session[:game],user.to_json)
     render :text => true, :content_type => "text/plain"
   end
 
