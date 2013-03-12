@@ -17,13 +17,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
             if (!selectedPawn || selectedPawn == self) {
                 if (self.selected == true) {
                     self.selected = false;
-                    this.setStroke('');
-                    this.setStrokeWidth(0);
+                    this.setImage(Resource.images.RESOURCE_PAWN_OVER);
                     Map.layerPawn.draw();
                 } else {
                     self.selected = true;
-                    this.setStroke('yellow');
-                    this.setStrokeWidth(4);
+                    this.setImage(Resource.images.RESOURCE_PAWN_OVER);
                     Map.layerPawn.draw();
                 }
             }
@@ -96,8 +94,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
     };
     
     Pawn.prototype.delStroke = function() {
-        this.kineticImg.setStroke('');
-        this.kineticImg.setStrokeWidth(0);
+        this.setImage(Resource.images.RESOURCE_PAWN);
         Map.layerPawn.draw();
     };
     

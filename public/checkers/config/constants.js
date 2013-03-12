@@ -13,8 +13,9 @@ define([], function() {
 
             //Ressources
             RESOURCES: { 
-                RESOURCE_TILE   : '/checkers/resources/tile.png',
-                RESOURCE_PAWN   : '/checkers/resources/pawn.png'
+                RESOURCE_TILE        : '/checkers/resources/tile.png',
+                RESOURCE_PAWN        : '/checkers/resources/pawn.png',
+                RESOURCE_PAWN_OVER   : '/checkers/resources/pawn_over.png'
             }
         };
         return constant;
