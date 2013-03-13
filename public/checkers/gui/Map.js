@@ -5,9 +5,9 @@
  * 		0 ==> noir
  * 		1 ==> blanc
  */
-define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function(require, c, Resource, Util) {
+define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], function(require, c, Resource, Pawn, Util) {
         return {
-            init: function(Pawn) {
+            init: function() {
                 this.mapData = JSON.parse(Util.getMapJSON("damier"));
                 
                 this.layerMap = new Kinetic.Layer();
@@ -47,7 +47,7 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
                             console.log('selectedPawn:',selectedPawn);
-                            function sendMove (posBefore,posAfter,posTaken) {                                
+                            function sendMove (posBefore,posAfter,again) {                                
                                $.ajax({
                                    type: "POST",
                                    url: "/setMove",
@@ -55,19 +55,14 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                    async: false,
                                    data: { pawnBefore: posBefore,
                                        pawnAfter: posAfter,
-                                       take:posTaken
+                                       again:again
                                    },
                                    success:function(){
-                                       // si on a pas pris de pion
-                                       if(typeof take=='undefined') {
-                                          Util.getMove();
-                                       } else {
-                                           // si on peut pas bouffer on change de tour
-                                           if(!self.mustWeMakeJump(window.turn)){
-                                               if (window.turn == 1) { window.turn=0; }
-                                               else { window.turn=1; }
-                                           }
-                                       }                                    
+                                       // si c'est à l'autre de jouer
+                                       if(!again) {
+                                           Window.turn = Window.turn == 1 ? 0 : 1;
+                                           Util.getMove();
+                                       }                                   
                                    }                          
                               });  
                             }
@@ -79,17 +74,18 @@ define(['require', 'config/constants', 'utils/Resource', 'utils/Util'], function
                                 console.log('posClick:',posClick);
                                 console.log('gridClick:',self.grid[posClick[1]][posClick[0]]);
                                 
-                                var jump = self.mustWeMakeJump();
+                                var jump = self.mustWeMakeJump(window.turn);
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
                                     selectedPawn.move(this.getX(), this.getY());                                    
-                                    sendMove([selectedPawn.posX,selectedPawn.posY],[this.getX(), this.getY()]);
+                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
                                     selectedPawn.move(this.getX(), this.getY());
-                                    sendMove([selectedPawn.posX,selectedPawn.posY],[this.getX(), this.getY()],[move.posX,move.posY]);
                                     move.del();
+                                    var again = self.mustWeMakeJump(window.turn) == true ? true : false;
+                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
                                 }
                             }
                         });
