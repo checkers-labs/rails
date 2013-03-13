@@ -2,7 +2,7 @@
  * class Pawn (pion)
  * @param color
  */
-define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function(c, Resource, Util, Map) {
+define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resource, Util) {
     function Pawn (color) {
         var self = this;
         this.selected = false;
@@ -15,17 +15,17 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         this.kineticImg.on('click', function() {
             //check si c'est notre couleur de pion
             var player = document.cookie.split('=')[1];
-            if(player == self.color && player == window.turn ) {
-                var selectedPawn = Map.getSelectedPawn();
+            if(player == self.color && player == Window.turn ) {
+                var selectedPawn = Window.Map.getSelectedPawn();
                 if (!selectedPawn || selectedPawn == self) {
                     if (self.selected == true) {
                         self.selected = false;
                         this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                        Map.layerPawn.draw();
+                        Window.Map.layerPawn.draw();
                     } else {
                         self.selected = true;
                         this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                        Map.layerPawn.draw();
+                        Window.Map.layerPawn.draw();
                     }
                 }
             }
@@ -67,7 +67,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
                 }
             });
         }
-        Map.layerPawn.add(this.kineticImg);
+        Window.Map.layerPawn.add(this.kineticImg);
     };
     
     Pawn.prototype.move = function(x, y) {
@@ -83,8 +83,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         });
         var coordinate = Util.coordinateToPos(x, y);
         //on modifie sa position dans la grille
-        Map.grid[this.posY][this.posX] = 0;
-        Map.grid[coordinate[1]][coordinate[0]] = this;
+        Window.Map.grid[this.posY][this.posX] = 0;
+        Window.Map.grid[coordinate[1]][coordinate[0]] = this;
         //on modifie ses attributs
         this.posX = coordinate[0];
         this.posY = coordinate[1];
@@ -92,14 +92,14 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
     };
     
     Pawn.prototype.del = function() {
-        Map.grid[this.posY][this.posX] = 0;
+        Window.Map.grid[this.posY][this.posX] = 0;
         this.kineticImg.remove();
-        Map.layerPawn.draw();
+        Window.Map.layerPawn.draw();
     };
     
     Pawn.prototype.delStroke = function() {
         this.kineticImg.setImage(Resource.images.RESOURCE_PAWN);
-        Map.layerPawn.draw();
+        Window.Map.layerPawn.draw();
     };
     
     Pawn.prototype.isJumpBL = function(selectedPawn) {
@@ -107,11 +107,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Map.grid[posY+1][posX-1] == "object" 
-            && Map.grid[posY+1][posX-1].color != color 
-            && typeof Map.grid[posY+2] != "undefined"
-            && typeof Map.grid[posY+2][posX-2] != "undefined"
-            && Map.grid[posY+2][posX-2] == 0) {
+        if(typeof Window.Map.grid[posY+1][posX-1] == "object" 
+            && Window.Map.grid[posY+1][posX-1].color != color 
+            && typeof Window.Map.grid[posY+2] != "undefined"
+            && typeof Window.Map.grid[posY+2][posX-2] != "undefined"
+            && Window.Map.grid[posY+2][posX-2] == 0) {
             return true;
         } else {
             return false;
@@ -123,11 +123,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Map.grid[posY+1][posX+1] == "object" 
-            && Map.grid[posY+1][posX+1].color != color 
-            && typeof Map.grid[posY+2] != "undefined"
-            && typeof Map.grid[posY+2][posX+2] != "undefined"
-            && Map.grid[posY+2][posX+2] == 0) {
+        if(typeof Window.Map.grid[posY+1][posX+1] == "object" 
+            && Window.Map.grid[posY+1][posX+1].color != color 
+            && typeof Window.Map.grid[posY+2] != "undefined"
+            && typeof Window.Map.grid[posY+2][posX+2] != "undefined"
+            && Window.Map.grid[posY+2][posX+2] == 0) {
             return true;
         } else {
             return false;
@@ -139,11 +139,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Map.grid[posY-1][posX-1] == "object" 
-            && Map.grid[posY-1][posX-1].color != color 
-            && typeof Map.grid[posY-2] != "undefined"
-            && typeof Map.grid[posY-2][posX-2] != "undefined"
-            && Map.grid[posY-2][posX-2] == 0) {
+        if(typeof Window.Map.grid[posY-1][posX-1] == "object" 
+            && Window.Map.grid[posY-1][posX-1].color != color 
+            && typeof Window.Map.grid[posY-2] != "undefined"
+            && typeof Window.Map.grid[posY-2][posX-2] != "undefined"
+            && Window.Map.grid[posY-2][posX-2] == 0) {
             return true;
         } else {
             return false;
@@ -155,11 +155,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util', 'gui/Map'], function
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Map.grid[posY-1][posX+1] == "object" 
-            && Map.grid[posY-1][posX+1].color != color 
-            && typeof Map.grid[posY-2] != "undefined"
-            && typeof Map.grid[posY-2][posX+2] != "undefined"
-            && Map.grid[posY-2][posX+2] == 0) {
+        if(typeof Window.Map.grid[posY-1][posX+1] == "object" 
+            && Window.Map.grid[posY-1][posX+1].color != color 
+            && typeof Window.Map.grid[posY-2] != "undefined"
+            && typeof Window.Map.grid[posY-2][posX+2] != "undefined"
+            && Window.Map.grid[posY-2][posX+2] == 0) {
             return true;
         } else {
             return false;

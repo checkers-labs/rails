@@ -17,12 +17,13 @@ function (kinetic, c, Resource, Map, Pawn, Util) {
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
-    window.turn = 0;
+    Window.turn = 0;
+    Window.Map = Map;
     if(document.cookie.split('=')[1] == 1) {
         Util.getMove();
     }
     Resource.init(function() {
-        Map.init(Pawn);
+        Map.init();
         var scene = new Kinetic.Stage({
             container: "kinetic",
             width: Map.getWidth() * c.WIDTH_TILE,

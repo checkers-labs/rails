@@ -20,19 +20,24 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
             },
             getMove:function(){
                 var self=this;
-                   $.ajax({
-                       type: "GET",
-                       url: "/getMove",
-                       dataType: "json",
-                       async: false,
-                       success:function(data){
-                            if(data){
-                                debugger
-                            }else{                                
-                               setTimeout(function () { self.getMove(); }, 3000); 
+                $.ajax({
+                    type: "GET",
+                    url: "/getMove",
+                    dataType: "json",
+                    async: false,
+                    success:function(data){
+                        if(data){
+                            // si à nous de jouer
+                            if(!data[0]) {
+                                Window.turn = Window.turn == 1 ? 0 : 1;
                             }
-                       }     
-                   });
+                            var pawn = Window.Map.grid[data[2][1]][data[2][0]]);
+                            pawn.move(data[3][0], data[3][1]);
+                        }else{                                
+                           setTimeout(function () { self.getMove(); }, 3000); 
+                        }
+                    }     
+                });
             }
         };
     }
