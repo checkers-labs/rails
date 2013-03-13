@@ -60,7 +60,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                    success:function(){
                                        // si c'est à l'autre de jouer
                                        if(!again) {
-                                           Window.turn = Window.turn == 1 ? 0 : 1;
+                                           Window.turn = window.turn == 1 ? 0 : 1;
                                            Util.getMove();
                                        }                                   
                                    }                          
