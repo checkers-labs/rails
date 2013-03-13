@@ -122,6 +122,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
             }, 
             mustWeMakeJump: function(color) {
                 color = typeof color !== 'undefined' ? color : false;
+                debugger;
                 for(var i = 0, l = this.grid.length ; i < l ; i++) {
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
