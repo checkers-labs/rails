@@ -19,29 +19,27 @@ class GameController < ApplicationController
   end
     
   def getMove
-    logger.debug('hello')
     moves = JSON.parse($redis.get(session[:game]))
-    if( moves.length > 3 && cookies[:player] != moves[2])
-      moves.delete_at(1)
-      moves.delete_at(0)
-      moves.delete_at(2)
+    
+    # si le meme joueur rejoue on envoie juste le coup joueur
+    # sinon on dit de change de joueur
+    logger.debug()
+    if( cookies[:player] != moves[2] && moves.length > 2) 
+      $redis.set(session[:game],moves.slice(0,2).to_json)
+      moves = moves[3..moves.length]
+      logger.debug(moves)
       render :text => moves, :content_type => "text/plain"
     else
       render :text => false, :content_type => "text/plain"
-    end
-    
+    end    
   end
   
   def setMove
     user = JSON.parse($redis.get(session[:game]))
     user[2]=cookies[:player]
-    user[3]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
-    user[4]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]
-    if(params[:take].nil?)
-      user = user.slice(0,5)      
-    elsif
-      user[5]=[Integer(params[:take][0]),Integer(params[:take][1])]
-    end
+    user[3]= params[:again]
+    user[4]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
+    user[5]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]
     $redis.set(session[:game],user.to_json)
     render :text => true, :content_type => "text/plain"
   end
