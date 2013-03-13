@@ -60,7 +60,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                    success:function(){
                                        // si c'est à l'autre de jouer
                                        if(!again) {
-                                           Window.turn = window.turn == 1 ? 0 : 1;
+                                           window.turn = window.turn == 1 ? 0 : 1;
                                            Util.getMove();
                                        }                                   
                                    }                          
@@ -74,7 +74,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 console.log('posClick:',posClick);
                                 console.log('gridClick:',self.grid[posClick[1]][posClick[0]]);
                                 
-                                var jump = self.mustWeMakeJump(Window.turn);
+                                var jump = self.mustWeMakeJump(window.turn);
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
@@ -82,7 +82,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                     selectedPawn.move(this.getX(), this.getY());
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
-                                    var again = self.mustWeMakeJump(Window.turn) == true ? true : false;
+                                    var again = self.mustWeMakeJump(window.turn) == true ? true : false;
                                     sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
                                     selectedPawn.move(this.getX(), this.getY());
                                     move.del();
@@ -155,10 +155,10 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
             },
             isMovePossible: function(jump, selectedPawn, posClick) {
                 var posX = selectedPawn.posX,
-                posY = selectedPawn.posY;
+                posY = selectedPawn.posY;                
                 // si c'est un pion de couleur rouge ou si c'est une dame
                 if (selectedPawn.color == 0 || selectedPawn.queen) {
-                    // si il faut manger on verifie que le clic soit bon
+                    // si il faut manger on verifie que le clic soit bon                    
                     if (jump) {
                         if(posClick[1] == posY+2 && posClick[0] == posX-2) {
                             return this.grid[posY+1][posX-1];
