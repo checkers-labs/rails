@@ -74,7 +74,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 console.log('posClick:',posClick);
                                 console.log('gridClick:',self.grid[posClick[1]][posClick[0]]);
                                 
-                                var jump = self.mustWeMakeJump(window.turn);
+                                var jump = self.mustWeMakeJump(Window.turn);
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
@@ -82,7 +82,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                     selectedPawn.move(this.getX(), this.getY());
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
-                                    var again = self.mustWeMakeJump(window.turn) == true ? true : false;
+                                    var again = self.mustWeMakeJump(Window.turn) == true ? true : false;
                                     sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
                                     selectedPawn.move(this.getX(), this.getY());
                                     move.del();

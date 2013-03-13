@@ -28,8 +28,9 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data){
                         if(data){
                             // si à nous de jouer
-                            debugger
-                            if(!data[0]) {
+                            console.log(data)      
+                   
+                            if(!JSON.parse(data[0])) {
                                 Window.turn = Window.turn == 1 ? 0 : 1;
                             }
                             var pawn = Window.Map.grid[data[1][1]][data[1][0]];
