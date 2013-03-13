@@ -46,6 +46,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
+                            var posPawn = {posX: selectedPawn.posX, posY: selectedPawn.posY};
                             console.log('selectedPawn:',selectedPawn);
                             function sendMove (posBefore,posAfter,again) {                                
                                $.ajax({
@@ -60,7 +61,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                    success:function(){
                                        // si c'est à l'autre de jouer
                                        if(!again) {
-                                           Window.turn = window.turn == 1 ? 0 : 1;
+                                           window.turn = window.turn == 1 ? 0 : 1;
                                            Util.getMove();
                                        }                                   
                                    }                          
@@ -74,18 +75,20 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 console.log('posClick:',posClick);
                                 console.log('gridClick:',self.grid[posClick[1]][posClick[0]]);
                                 
-                                var jump = self.mustWeMakeJump(Window.turn);
+                                var jump = self.mustWeMakeJump(window.turn);
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
-                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
+                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], false);
                                     selectedPawn.move(this.getX(), this.getY());
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
-                                    var again = self.mustWeMakeJump(Window.turn) == true ? true : false;
-                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
                                     selectedPawn.move(this.getX(), this.getY());
                                     move.del();
+                                    var again = self.mustWeMakeJump(window.turn);
+                                    console.log('again',again);
+                                    debugger;
+                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], again);
                                 }
                             }
                         });
@@ -122,7 +125,6 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
             }, 
             mustWeMakeJump: function(color) {
                 color = typeof color !== 'undefined' ? color : false;
-                debugger;
                 for(var i = 0, l = this.grid.length ; i < l ; i++) {
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
