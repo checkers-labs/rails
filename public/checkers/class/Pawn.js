@@ -15,17 +15,17 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         this.kineticImg.on('click', function() {
             //check si c'est notre couleur de pion
             var player = document.cookie.split('=')[1];
-            if(player == self.color && player == Window.turn ) {
-                var selectedPawn = Window.Map.getSelectedPawn();
+            if(player == self.color && player == window.turn ) {
+                var selectedPawn = window.Map.getSelectedPawn();
                 if (!selectedPawn || selectedPawn == self) {
                     if (self.selected == true) {
                         self.selected = false;
                         this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                        Window.Map.layerPawn.draw();
+                        window.Map.layerPawn.draw();
                     } else {
                         self.selected = true;
                         this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                        Window.Map.layerPawn.draw();
+                        window.Map.layerPawn.draw();
                     }
                 }
             }
@@ -67,7 +67,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 }
             });
         }
-        Window.Map.layerPawn.add(this.kineticImg);
+        window.Map.layerPawn.add(this.kineticImg);
     };
     
     Pawn.prototype.move = function(x, y) {
@@ -83,8 +83,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         });
         var coordinate = Util.coordinateToPos(x, y);
         //on modifie sa position dans la grille
-        Window.Map.grid[this.posY][this.posX] = 0;
-        Window.Map.grid[coordinate[1]][coordinate[0]] = this;
+        window.Map.grid[this.posY][this.posX] = 0;
+        window.Map.grid[coordinate[1]][coordinate[0]] = this;
         //on modifie ses attributs
         this.posX = coordinate[0];
         this.posY = coordinate[1];
@@ -92,14 +92,14 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
     };
     
     Pawn.prototype.del = function() {
-        Window.Map.grid[this.posY][this.posX] = 0;
+        window.Map.grid[this.posY][this.posX] = 0;
         this.kineticImg.remove();
-        Window.Map.layerPawn.draw();
+        window.Map.layerPawn.draw();
     };
     
     Pawn.prototype.delStroke = function() {
         this.kineticImg.setImage(Resource.images.RESOURCE_PAWN);
-        Window.Map.layerPawn.draw();
+        window.Map.layerPawn.draw();
     };
     
     Pawn.prototype.isJumpBL = function(selectedPawn) {
@@ -107,11 +107,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Window.Map.grid[posY+1][posX-1] == "object" 
-            && Window.Map.grid[posY+1][posX-1].color != color 
-            && typeof Window.Map.grid[posY+2] != "undefined"
-            && typeof Window.Map.grid[posY+2][posX-2] != "undefined"
-            && Window.Map.grid[posY+2][posX-2] == 0) {
+        if(typeof window.Map.grid[posY+1][posX-1] == "object" 
+            && window.Map.grid[posY+1][posX-1].color != color 
+            && typeof window.Map.grid[posY+2] != "undefined"
+            && typeof window.Map.grid[posY+2][posX-2] != "undefined"
+            && window.Map.grid[posY+2][posX-2] == 0) {
             return true;
         } else {
             return false;
@@ -123,11 +123,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Window.Map.grid[posY+1][posX+1] == "object" 
-            && Window.Map.grid[posY+1][posX+1].color != color 
-            && typeof Window.Map.grid[posY+2] != "undefined"
-            && typeof Window.Map.grid[posY+2][posX+2] != "undefined"
-            && Window.Map.grid[posY+2][posX+2] == 0) {
+        if(typeof window.Map.grid[posY+1][posX+1] == "object" 
+            && window.Map.grid[posY+1][posX+1].color != color 
+            && typeof window.Map.grid[posY+2] != "undefined"
+            && typeof window.Map.grid[posY+2][posX+2] != "undefined"
+            && window.Map.grid[posY+2][posX+2] == 0) {
             return true;
         } else {
             return false;
@@ -139,11 +139,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Window.Map.grid[posY-1][posX-1] == "object" 
-            && Window.Map.grid[posY-1][posX-1].color != color 
-            && typeof Window.Map.grid[posY-2] != "undefined"
-            && typeof Window.Map.grid[posY-2][posX-2] != "undefined"
-            && Window.Map.grid[posY-2][posX-2] == 0) {
+        if(typeof window.Map.grid[posY-1][posX-1] == "object" 
+            && window.Map.grid[posY-1][posX-1].color != color 
+            && typeof window.Map.grid[posY-2] != "undefined"
+            && typeof window.Map.grid[posY-2][posX-2] != "undefined"
+            && window.Map.grid[posY-2][posX-2] == 0) {
             return true;
         } else {
             return false;
@@ -155,11 +155,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof Window.Map.grid[posY-1][posX+1] == "object" 
-            && Window.Map.grid[posY-1][posX+1].color != color 
-            && typeof Window.Map.grid[posY-2] != "undefined"
-            && typeof Window.Map.grid[posY-2][posX+2] != "undefined"
-            && Window.Map.grid[posY-2][posX+2] == 0) {
+        if(typeof window.Map.grid[posY-1][posX+1] == "object" 
+            && window.Map.grid[posY-1][posX+1].color != color 
+            && typeof window.Map.grid[posY-2] != "undefined"
+            && typeof window.Map.grid[posY-2][posX+2] != "undefined"
+            && window.Map.grid[posY-2][posX+2] == 0) {
             return true;
         } else {
             return false;

@@ -17,8 +17,8 @@ function (kinetic, c, Resource, Map, Pawn, Util) {
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
-    Window.turn = 0;
-    Window.Map = Map;
+    window.turn = 0;
+    window.Map = Map;
     if(document.cookie.split('=')[1] == 1) {
         Util.getMove();
     }

@@ -28,12 +28,11 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data){
                         if(data){
                             // si à nous de jouer
-                            console.log(data)      
-                   
                             if(!JSON.parse(data[0])) {
-                                Window.turn = Window.turn == 1 ? 0 : 1;
+                                window.turn = window.turn == 1 ? 0 : 1;
+
                             }
-                            var pawn = Window.Map.grid[data[1][1]][data[1][0]];
+                            var pawn = window.Map.grid[data[1][1]][data[1][0]];
                             pawn.move(data[2][0], data[2][1]);
                         }else{                                
                            setTimeout(function () { self.getMove(); }, 3000); 
