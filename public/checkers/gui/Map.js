@@ -78,14 +78,14 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
-                                    selectedPawn.move(this.getX(), this.getY());                                    
                                     sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
+                                    selectedPawn.move(this.getX(), this.getY());
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
-                                    selectedPawn.move(this.getX(), this.getY());
-                                    move.del();
                                     var again = self.mustWeMakeJump(window.turn) == true ? true : false;
                                     sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
+                                    selectedPawn.move(this.getX(), this.getY());
+                                    move.del();
                                 }
                             }
                         });
