@@ -46,6 +46,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
+                            var posPawn = {posX: selectedPawn.posX, posY: selectedPawn.posY};
                             console.log('selectedPawn:',selectedPawn);
                             function sendMove (posBefore,posAfter,again) {                                
                                $.ajax({
@@ -78,14 +79,15 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 console.log('mustWeMakeJump:',jump);
                                 var move = self.isMovePossible(jump, selectedPawn, posClick);
                                 if (move == true) {
-                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
+                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], false);
                                     selectedPawn.move(this.getX(), this.getY());
                                 } else if (typeof move == 'object') {
                                     console.log('jumpedPawn',move);
-                                    var again = self.mustWeMakeJump(window.turn) == true ? true : false;
-                                    sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
                                     selectedPawn.move(this.getX(), this.getY());
                                     move.del();
+                                    var again = self.mustWeMakeJump(window.turn);
+                                    console.log('again',again);                                    
+                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], again);
                                 }
                             }
                         });
@@ -170,6 +172,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         }
                     // sinon on verifie que le deplacement soit correct
                     } else if (posClick[1] == posY+1
+                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
                         && this.grid[posClick[1]][posClick[0]] == 0) {
                         return true;
                     } else {
@@ -191,6 +194,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         }
                     // sinon on verifie que le deplacement soit correct
                     } else if (posClick[1] == posY-1 
+                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
                         && this.grid[posClick[1]][posClick[0]] == 0) {
                        return true;
                     } else {

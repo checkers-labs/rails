@@ -20,7 +20,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 if (!selectedPawn || selectedPawn == self) {
                     if (self.selected == true) {
                         self.selected = false;
-                        this.setImage(Resource.images.RESOURCE_PAWN_OVER);
+                        this.setImage(Resource.images.RESOURCE_PAWN);
                         window.Map.layerPawn.draw();
                     } else {
                         self.selected = true;
