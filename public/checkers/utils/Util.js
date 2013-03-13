@@ -28,6 +28,7 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data){
                         if(data){
                             // si à nous de jouer
+                            debugger
                             if(!data[0]) {
                                 Window.turn = Window.turn == 1 ? 0 : 1;
                             }
