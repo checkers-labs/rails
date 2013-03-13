@@ -173,6 +173,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         }
                     // sinon on verifie que le deplacement soit correct
                     } else if (posClick[1] == posY+1
+                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
                         && this.grid[posClick[1]][posClick[0]] == 0) {
                         return true;
                     } else {
@@ -194,6 +195,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                         }
                     // sinon on verifie que le deplacement soit correct
                     } else if (posClick[1] == posY-1 
+                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
                         && this.grid[posClick[1]][posClick[0]] == 0) {
                        return true;
                     } else {
