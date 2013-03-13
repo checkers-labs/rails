@@ -1,11 +1,11 @@
 /**
  * Singleton Map : 
- * 	Dessine le damier contenu dans le json
- * 	Tableau contenant tous les pions ainsi que les couleurs des cases : 
- * 		0 ==> noir
- * 		1 ==> blanc
+ *  Dessine le damier contenu dans le json
+ *  Tableau contenant tous les pions ainsi que les couleurs des cases : 
+ *      0 ==> noir
+ *      1 ==> blanc
  */
-define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], function(require, c, Resource, Pawn, Util) {
+define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], function(c, Resource, Pawn, Util) {
         return {
             init: function() {
                 this.mapData = JSON.parse(Util.getMapJSON("damier"));
@@ -42,53 +42,25 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                  width: c.WIDTH_TILE,
                                  height: c.HEIGHT_TILE
                              }
-                          });
+                        });
                         
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
-                            var posPawn = {posX: selectedPawn.posX, posY: selectedPawn.posY};
                             console.log('selectedPawn:',selectedPawn);
-                            function sendMove (posBefore,posAfter,again) {                                
-                               $.ajax({
-                                   type: "POST",
-                                   url: "/setMove",
-                                   dataType: "json",
-                                   async: false,
-                                   data: { pawnBefore: posBefore,
-                                       pawnAfter: posAfter,
-                                       again:again
-                                   },
-                                   success:function(){
-                                       // si c'est à l'autre de jouer
-                                       if(!again) {
-                                           window.turn = window.turn == 1 ? 0 : 1;
-                                           Util.getMove();
-                                       }                                   
-                                   }                          
-                              });  
-                            }
-                            
                             if (!selectedPawn) {
                                 console.log('no selected pawn');
                             } else {
-                                var posClick = Util.coordinateToPos(this.getX(), this.getY());
-                                console.log('posClick:',posClick);
-                                console.log('gridClick:',self.grid[posClick[1]][posClick[0]]);
+                                var coordinateClick = {x: this.getX(), y: this.getY()};
+                                console.log('coordinateClick:',coordinateClick);
                                 
-                                var jump = self.mustWeMakeJump(window.turn);
-                                console.log('mustWeMakeJump:',jump);
-                                var move = self.isMovePossible(jump, selectedPawn, posClick);
+                                var move = selectedPawn.move(selectedPawn, coordinateClick);
                                 if (move == true) {
-                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], false);
-                                    selectedPawn.move(this.getX(), this.getY());
-                                } else if (typeof move == 'object') {
-                                    console.log('jumpedPawn',move);
-                                    selectedPawn.move(this.getX(), this.getY());
-                                    move.del();
+                                    // play again ?
                                     var again = self.mustWeMakeJump(window.turn);
                                     console.log('again',again);
-                                    debugger;
-                                    sendMove([posPawn.posX,posPawn.posY], [this.getX(), this.getY()], again);
+                                    Util.sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
+                                } else if (move == false) {
+                                    Util.sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
                                 }
                             }
                         });
@@ -132,7 +104,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                             var selectedPawn = this.grid[i][j];
                             // si c'est un pion de couleur rouge ou si c'est une dame
                             if ((color == false && (selectedPawn.color == 0 || selectedPawn.queen))
-                                    || color == 0 && (selectedPawn.color == 0 || selectedPawn.queen)) {
+                                    || (color == 0 && (selectedPawn.color == 0 || selectedPawn.queen))) {
                                 // on regarde si on peut manger en bas à gauche
                                 if(selectedPawn.isJumpBL(selectedPawn)) {
                                    return true;
@@ -142,7 +114,7 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                                 }
                             }
                             if ((color == false && (selectedPawn.color == 1 || selectedPawn.queen))
-                                    || color == 1 && (selectedPawn.color == 1 || selectedPawn.queen)) {
+                                    || (color == 1 && (selectedPawn.color == 1 || selectedPawn.queen))) {
                                 // on regarde si on peut manger en haut à gauche
                                 if(selectedPawn.isJumpTL(selectedPawn)) {
                                    return true;
@@ -155,54 +127,6 @@ define(['require', 'config/constants', 'utils/Resource', 'class/Pawn', 'utils/Ut
                     }
                 }
                 return false;
-            },
-            isMovePossible: function(jump, selectedPawn, posClick) {
-                var posX = selectedPawn.posX,
-                posY = selectedPawn.posY;
-                // si c'est un pion de couleur rouge ou si c'est une dame
-                if (selectedPawn.color == 0 || selectedPawn.queen) {
-                    // si il faut manger on verifie que le clic soit bon
-                    if (jump) {
-                        if(posClick[1] == posY+2 && posClick[0] == posX-2) {
-                            return this.grid[posY+1][posX-1];
-                        } else if (posClick[1] == posY+2 &&posClick[0] == posX+2) {
-                            return this.grid[posY+1][posX+1];
-                        } else {
-                            //click sur une mauvaise case
-                            return false;
-                        }
-                    // sinon on verifie que le deplacement soit correct
-                    } else if (posClick[1] == posY+1
-                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
-                        && this.grid[posClick[1]][posClick[0]] == 0) {
-                        return true;
-                    } else {
-                        //click sur une mauvaise case
-                        return false;
-                    }
-                }
-                // si c'est un pion de couleur bleu ou si c'est une dame
-                if (selectedPawn.color == 1  || selectedPawn.queen) {
-                    // si il faut manger on verifie que le clic soit bon
-                    if (jump) {
-                        if(posClick[1] == posY-2 && posClick[0] == posX-2) {
-                            return this.grid[posY-1][posX-1];
-                        } else if (posClick[1] == posY-2 && posClick[0] == posX+2) {
-                            return this.grid[posY-1][posX+1];
-                        } else {
-                            //click sur une mauvaise case
-                            return false;
-                        }
-                    // sinon on verifie que le deplacement soit correct
-                    } else if (posClick[1] == posY-1 
-                        && (posClick[0] == posX-1 || posClick[0] == posX+1)
-                        && this.grid[posClick[1]][posClick[0]] == 0) {
-                       return true;
-                    } else {
-                        //click sur une mauvaise case
-                        return false;
-                    }
-                }
             },
             getHeight: function() {
                 return this.mapData.map.length;

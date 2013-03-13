@@ -70,25 +70,34 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         window.Map.layerPawn.add(this.kineticImg);
     };
     
-    Pawn.prototype.move = function(x, y) {
-        var self = this;
-    
-        this.kineticImg.transitionTo({
-            x: x + c.MARGIN_WIDTH,
-            y: y + c.MARGIN_HEIGHT,
-            duration: 1,
-            callback: function() {
-                self.delStroke();
-            }
-        });
-        var coordinate = Util.coordinateToPos(x, y);
-        //on modifie sa position dans la grille
-        window.Map.grid[this.posY][this.posX] = 0;
-        window.Map.grid[coordinate[1]][coordinate[0]] = this;
-        //on modifie ses attributs
-        this.posX = coordinate[0];
-        this.posY = coordinate[1];
-        this.selected = false;
+    Pawn.prototype.move = function(selectedPawn, coordinateClick) {
+        var self = this,
+        posClick = Util.coordinateToPos(coordinateClick.x, coordinateClick.y);
+        movePossible = this.isMovePossible(selectedPawn, posClick);
+        if(movePossible != false) {
+            this.kineticImg.transitionTo({
+                x: coordinateClick.x + c.MARGIN_WIDTH,
+                y: coordinateClick.y + c.MARGIN_HEIGHT,
+                duration: 1,
+                callback: function() {
+                    self.delStroke();
+                }
+            });
+            //on modifie sa position dans la grille
+            window.Map.grid[this.posY][this.posX] = 0;
+            window.Map.grid[posClick[1]][posClick[0]] = this;
+            //on modifie ses attributs
+            this.posX = posClick[0];
+            this.posY = posClick[1];
+            this.selected = false;
+        }
+        if (movePossible == true) {
+            return false;
+        }
+        else if (typeof movePossible == 'object') {
+            movePossible.del();
+            return true;
+        }
     };
     
     Pawn.prototype.del = function() {
@@ -101,6 +110,57 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         this.kineticImg.setImage(Resource.images.RESOURCE_PAWN);
         window.Map.layerPawn.draw();
     };
+    
+    Pawn.prototype.isMovePossible = function(selectedPawn, posClick) {
+        var jump = window.Map.mustWeMakeJump(window.turn),
+        posX = selectedPawn.posX,
+        posY = selectedPawn.posY;
+        console.log('mustWeMakeJump:',jump);
+        // si c'est un pion de couleur rouge ou si c'est une dame
+        if (selectedPawn.color == 0 || selectedPawn.queen) {
+            // si il faut manger on verifie que le clic soit bon
+            if (jump) {
+                if(posClick[1] == posY+2 && posClick[0] == posX-2) {
+                    return this.grid[posY+1][posX-1];
+                } else if (posClick[1] == posY+2 &&posClick[0] == posX+2) {
+                    return this.grid[posY+1][posX+1];
+                } else {
+                    //click sur une mauvaise case
+                    return false;
+                }
+            // sinon on verifie que le deplacement soit correct
+            } else if (posClick[1] == posY+1
+                && (posClick[0] == posX-1 || posClick[0] == posX+1)
+                && this.grid[posClick[1]][posClick[0]] == 0) {
+                return true;
+            } else {
+                //click sur une mauvaise case
+                return false;
+            }
+        }
+        // si c'est un pion de couleur bleu ou si c'est une dame
+        if (selectedPawn.color == 1  || selectedPawn.queen) {
+            // si il faut manger on verifie que le clic soit bon
+            if (jump) {
+                if(posClick[1] == posY-2 && posClick[0] == posX-2) {
+                    return this.grid[posY-1][posX-1];
+                } else if (posClick[1] == posY-2 && posClick[0] == posX+2) {
+                    return this.grid[posY-1][posX+1];
+                } else {
+                    //click sur une mauvaise case
+                    return false;
+                }
+            // sinon on verifie que le deplacement soit correct
+            } else if (posClick[1] == posY-1 
+                && (posClick[0] == posX-1 || posClick[0] == posX+1)
+                && this.grid[posClick[1]][posClick[0]] == 0) {
+               return true;
+            } else {
+                //click sur une mauvaise case
+                return false;
+            }
+        }
+    }
     
     Pawn.prototype.isJumpBL = function(selectedPawn) {
         var posX = selectedPawn.posX,

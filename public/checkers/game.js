@@ -12,13 +12,16 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'class/Pawn', 'utils/Util'],
-function (kinetic, c, Resource, Map, Pawn, Util) {
+requirejs(['libraries/kineticjs-v433/kinetic', 'config/constants', 'utils/Resource', 'gui/Map', 'utils/Util'],
+function (kinetic, c, Resource, Map, Util) {
+    // config de l'ajax pour mettre le bon header
     $.ajaxSetup({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
     });
+    // on set le tour pour le joueur '0' et on passe la Map en global
     window.turn = 0;
     window.Map = Map;
+    
     if(document.cookie.split('=')[1] == 1) {
         Util.getMove();
     }
