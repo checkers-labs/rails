@@ -44,13 +44,13 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     dataType: "json",
                     success:function(data, textStatus, jqXHR){
                         if(data){
+                            var pawn = window.Map.grid[data[1][1]][data[1][0]];
+                            var posPawn = {x: data[2][0], y:data[2][1]};
+                            pawn.move(posPawn);
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
                                 window.player = window.player == 1 ? 0 : 1;
                             }
-                            var pawn = window.Map.grid[data[1][1]][data[1][0]];
-                            var posPawn = {x: data[2][0], y:data[2][1]};
-                            pawn.move(posPawn);
                         }else{                                
                            setTimeout(function () { self.getMove(); }, 3000); 
                         }

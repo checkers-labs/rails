@@ -89,6 +89,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             //on modifie ses attributs
             this.posX = posClick[0];
             this.posY = posClick[1];
+            if(this.color == 0 && this.posY == 7) {
+                this.queen = true;
+            } else if(this.color == 1 && this.posY == 0) {
+                this.queen = true;
+            }
             this.selected = false;
         }
         if (movePossible == true) {
