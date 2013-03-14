@@ -4,6 +4,7 @@ First::Application.routes.draw do
     match 'login' => 'users#login'
     match 'logout' => 'users#logout'    
   resources :index
+    match 'index' => 'index#index'
     match 'sendInvite/:id' => 'index#sendInvite'
     match 'cancelInvite' => 'index#cancelInvite'
     match 'acceptInvite' => 'index#acceptInvite'

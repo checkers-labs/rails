@@ -172,7 +172,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof window.Map.grid[posY+1][posX-1] == "object" 
+        if(posY+1 <=7
+            && typeof window.Map.grid[posY+1][posX-1] == "object" 
             && window.Map.grid[posY+1][posX-1].color != color 
             && typeof window.Map.grid[posY+2] != "undefined"
             && typeof window.Map.grid[posY+2][posX-2] != "undefined"
@@ -188,7 +189,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof window.Map.grid[posY+1][posX+1] == "object" 
+        if(posY+1 <=7
+            && typeof window.Map.grid[posY+1][posX+1] == "object" 
             && window.Map.grid[posY+1][posX+1].color != color 
             && typeof window.Map.grid[posY+2] != "undefined"
             && typeof window.Map.grid[posY+2][posX+2] != "undefined"
@@ -204,7 +206,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof window.Map.grid[posY-1][posX-1] == "object" 
+        if(posY-1 >= 0
+            && typeof window.Map.grid[posY-1][posX-1] == "object" 
             && window.Map.grid[posY-1][posX-1].color != color 
             && typeof window.Map.grid[posY-2] != "undefined"
             && typeof window.Map.grid[posY-2][posX-2] != "undefined"
@@ -220,7 +223,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         posY = selectedPawn.posY,
         color = selectedPawn.color;
         
-        if(typeof window.Map.grid[posY-1][posX+1] == "object" 
+        if(posY-1 >= 0
+            && typeof window.Map.grid[posY-1][posX+1] == "object" 
             && window.Map.grid[posY-1][posX+1].color != color 
             && typeof window.Map.grid[posY-2] != "undefined"
             && typeof window.Map.grid[posY-2][posX+2] != "undefined"
