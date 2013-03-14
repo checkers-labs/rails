@@ -50,6 +50,8 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
                                 window.player = window.player == 1 ? 0 : 1;
+                            } else {
+                                self.getMove();
                             }
                         }else{                                
                            setTimeout(function () { self.getMove(); }, 3000); 
