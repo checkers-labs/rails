@@ -7,10 +7,9 @@ function waitForInvite() {
             if(data[0] == 'invite') {
                 if (confirm("Vous avez une invitation de la part de "+data[2]+"\n\nVoulez vous l'accepter ?")==true) {
                     $.ajax({
-                        type: "GET",
+                        type: "POST",
                         url: "/acceptInvite",
                         dataType: "json",
-                        async: false,
                         data: { id: data[1] },
                         success: function ( data, textStatus, jqXHR ) {
                             window.location='/game';
@@ -18,9 +17,9 @@ function waitForInvite() {
                     });
                 } else {
                     $.ajax({
-                        type: "GET",
+                        type: "POST",
                         url: "/cancelInvite",
-                        async: false,
+                        dataType: "json",
                         data: { id: data[1] },
                         success: function ( data, textStatus, jqXHR ) {
                         }

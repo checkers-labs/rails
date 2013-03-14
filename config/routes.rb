@@ -6,10 +6,10 @@ First::Application.routes.draw do
   resources :index
     match 'sendInvite/:id' => 'index#sendInvite'
     match 'cancelInvite' => 'index#cancelInvite'
+    match 'acceptInvite' => 'index#acceptInvite'
     match 'wait' => 'index#wait'
   resources :game
     match 'game' => 'game#index'
-    match 'acceptInvite' => 'game#acceptInvite'
     match 'setMove' => 'game#setMove'
     match 'getMove' => 'game#getMove'
   

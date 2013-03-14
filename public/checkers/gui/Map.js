@@ -46,6 +46,7 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                         
                         tileset.on('click', function(posBefore,posAfter,posTaken) {
                             var selectedPawn = self.getSelectedPawn();
+                            var posPawn = {x: selectedPawn.posX, y:selectedPawn.posY};
                             console.log('selectedPawn:',selectedPawn);
                             if (!selectedPawn) {
                                 console.log('no selected pawn');
@@ -53,14 +54,14 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                                 var coordinateClick = {x: this.getX(), y: this.getY()};
                                 console.log('coordinateClick:',coordinateClick);
                                 
-                                var move = selectedPawn.move(selectedPawn, coordinateClick);
+                                var move = selectedPawn.move(coordinateClick);
                                 if (move == true) {
                                     // play again ?
-                                    var again = self.mustWeMakeJump(window.turn);
+                                    var again = self.mustWeMakeJump(window.player);
                                     console.log('again',again);
-                                    Util.sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], again);
+                                    Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], again);
                                 } else if (move == false) {
-                                    Util.sendMove([selectedPawn.posX,selectedPawn.posY], [this.getX(), this.getY()], false);
+                                    Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], false);
                                 }
                             }
                         });
@@ -95,16 +96,15 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                 }
                 return false;
             }, 
-            mustWeMakeJump: function(color) {
-                color = typeof color !== 'undefined' ? color : false;
+            mustWeMakeJump: function(player) {
                 for(var i = 0, l = this.grid.length ; i < l ; i++) {
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
                         if (typeof this.grid[i][j] == "object") {
                             var selectedPawn = this.grid[i][j];
                             // si c'est un pion de couleur rouge ou si c'est une dame
-                            if ((color == false && (selectedPawn.color == 0 || selectedPawn.queen))
-                                    || (color == 0 && (selectedPawn.color == 0 || selectedPawn.queen))) {
+                            if (selectedPawn.color == player 
+                                    && (selectedPawn.queen || selectedPawn.color == 0)) {
                                 // on regarde si on peut manger en bas à gauche
                                 if(selectedPawn.isJumpBL(selectedPawn)) {
                                    return true;
@@ -113,8 +113,8 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                                     return true;
                                 }
                             }
-                            if ((color == false && (selectedPawn.color == 1 || selectedPawn.queen))
-                                    || (color == 1 && (selectedPawn.color == 1 || selectedPawn.queen))) {
+                            if (selectedPawn.color == player 
+                                    && (selectedPawn.queen || selectedPawn.color == 1)) {
                                 // on regarde si on peut manger en haut à gauche
                                 if(selectedPawn.isJumpTL(selectedPawn)) {
                                    return true;

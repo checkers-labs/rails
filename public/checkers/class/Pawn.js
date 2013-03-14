@@ -15,7 +15,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         this.kineticImg.on('click', function() {
             //check si c'est notre couleur de pion
             var player = document.cookie.split('=')[1];
-            if(player == self.color && player == window.turn ) {
+            if(player == self.color && player == window.player ) {
                 var selectedPawn = window.Map.getSelectedPawn();
                 if (!selectedPawn || selectedPawn == self) {
                     if (self.selected == true) {
@@ -70,10 +70,10 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         window.Map.layerPawn.add(this.kineticImg);
     };
     
-    Pawn.prototype.move = function(selectedPawn, coordinateClick) {
+    Pawn.prototype.move = function(coordinateClick) {
         var self = this,
-        posClick = Util.coordinateToPos(coordinateClick.x, coordinateClick.y);
-        movePossible = this.isMovePossible(selectedPawn, posClick);
+        posClick = Util.coordinateToPos(coordinateClick.x, coordinateClick.y),
+        movePossible = this.isMovePossible(posClick);
         if(movePossible != false) {
             this.kineticImg.transitionTo({
                 x: coordinateClick.x + c.MARGIN_WIDTH,
@@ -111,19 +111,19 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         window.Map.layerPawn.draw();
     };
     
-    Pawn.prototype.isMovePossible = function(selectedPawn, posClick) {
-        var jump = window.Map.mustWeMakeJump(window.turn),
-        posX = selectedPawn.posX,
-        posY = selectedPawn.posY;
+    Pawn.prototype.isMovePossible = function(posClick) {
+        var jump = window.Map.mustWeMakeJump(window.player),
+        posX = this.posX,
+        posY = this.posY;
         console.log('mustWeMakeJump:',jump);
         // si c'est un pion de couleur rouge ou si c'est une dame
-        if (selectedPawn.color == 0 || selectedPawn.queen) {
+        if (this.color == 0 || this.queen) {
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY+2 && posClick[0] == posX-2) {
-                    return this.grid[posY+1][posX-1];
+                    return window.Map.grid[posY+1][posX-1];
                 } else if (posClick[1] == posY+2 &&posClick[0] == posX+2) {
-                    return this.grid[posY+1][posX+1];
+                    return window.Map.grid[posY+1][posX+1];
                 } else {
                     //click sur une mauvaise case
                     return false;
@@ -131,7 +131,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             // sinon on verifie que le deplacement soit correct
             } else if (posClick[1] == posY+1
                 && (posClick[0] == posX-1 || posClick[0] == posX+1)
-                && this.grid[posClick[1]][posClick[0]] == 0) {
+                && window.Map.grid[posClick[1]][posClick[0]] == 0) {
                 return true;
             } else {
                 //click sur une mauvaise case
@@ -139,13 +139,13 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             }
         }
         // si c'est un pion de couleur bleu ou si c'est une dame
-        if (selectedPawn.color == 1  || selectedPawn.queen) {
+        if (this.color == 1  || this.queen) {
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY-2 && posClick[0] == posX-2) {
-                    return this.grid[posY-1][posX-1];
+                    return window.Map.grid[posY-1][posX-1];
                 } else if (posClick[1] == posY-2 && posClick[0] == posX+2) {
-                    return this.grid[posY-1][posX+1];
+                    return window.Map.grid[posY-1][posX+1];
                 } else {
                     //click sur une mauvaise case
                     return false;
@@ -153,7 +153,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             // sinon on verifie que le deplacement soit correct
             } else if (posClick[1] == posY-1 
                 && (posClick[0] == posX-1 || posClick[0] == posX+1)
-                && this.grid[posClick[1]][posClick[0]] == 0) {
+                && window.Map.grid[posClick[1]][posClick[0]] == 0) {
                return true;
             } else {
                 //click sur une mauvaise case

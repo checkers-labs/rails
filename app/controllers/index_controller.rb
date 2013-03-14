@@ -28,6 +28,20 @@ class IndexController < ApplicationController
     render :nothing => true
   end
   
+  def acceptInvite     
+    key = $redis.keys("invitation:from#{params[:id]}to*")
+    $redis.del(key)   
+    game = "game:from#{params[:id]}to#{session[:user_id]}"   
+    userGame = [session[:user_id], Integer(params[:id])].to_json
+    session[:game]=game
+    cookies[:player] = {
+      :value => 0,
+      :expires => 2.hour.from_now
+    }
+    $redis.set(game,userGame)
+    render :text => true, :content_type => "text/plain"
+  end
+  
   def wait
     result = false
     key = $redis.keys("invitation:from*to#{session[:user_id]}")

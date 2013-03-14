@@ -23,7 +23,6 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     type: "POST",
                     url: "/setMove",
                     dataType: "json",
-                    async: false,
                     data: { pawnBefore: posBefore,
                         pawnAfter: posAfter,
                         again:again
@@ -31,7 +30,7 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data, textStatus, jqXHR){
                         // si c'est à l'autre de jouer
                         if(!again) {
-                            window.turn = window.turn == 1 ? 0 : 1;
+                            window.player = window.player == 1 ? 0 : 1;
                             self.getMove();
                         }                                   
                     }                          
@@ -43,15 +42,15 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     type: "GET",
                     url: "/getMove",
                     dataType: "json",
-                    async: false,
                     success:function(data, textStatus, jqXHR){
                         if(data){
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
-                                window.turn = window.turn == 1 ? 0 : 1;
+                                window.player = window.player == 1 ? 0 : 1;
                             }
                             var pawn = window.Map.grid[data[1][1]][data[1][0]];
-                            pawn.move(data[2][0], data[2][1]);
+                            var posPawn = {x: data[2][0], y:data[2][1]};
+                            pawn.move(posPawn);
                         }else{                                
                            setTimeout(function () { self.getMove(); }, 3000); 
                         }
