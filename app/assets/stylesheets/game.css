@@ -6,3 +6,6 @@
 #alert {
     float: right;
 }
+.alert {
+    width: 100%;
+}
