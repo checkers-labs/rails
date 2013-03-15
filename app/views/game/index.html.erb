@@ -1,6 +1,23 @@
+<% content_for :css do %>
+  <%= stylesheet_link_tag 'game', :media => "all" %>
+<% end %>
+
 <div class="container">
-    Salut, <%= session[:user_name] %>
-    <br>
-    <div id="kinetic"></div>
-    <script data-main="/checkers/game.js" src="/checkers/libraries/require.js"></script>
+    <div class="hero-unit">
+        <div id="alert">
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Informations : </strong>
+                <p id="game_alert-info"></p>
+            </div>
+            <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>Attention : </strong>
+                <p id="game_alert-error"></p>
+            </div>
+        </div>
+        <div id="kinetic"></div>
+    </div>
 </div>
+
+<script data-main="/checkers/game.js" src="/checkers/libraries/require.js"></script>

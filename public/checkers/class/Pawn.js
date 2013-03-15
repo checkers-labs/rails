@@ -12,10 +12,19 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         this.posY = 0;
         
         this.kineticImg = new Kinetic.Image();
+        // add cursor styling
+        this.kineticImg.on('mouseover', function() {
+          //check si c'est notre couleur de pion et que c'est notre tour
+          if (window.player == self.color && window.player == window.turn) {
+              document.body.style.cursor = 'pointer';
+          }
+        });
+        this.kineticImg.on('mouseout', function() {
+          document.body.style.cursor = 'default';
+        });
         this.kineticImg.on('click', function() {
-            //check si c'est notre couleur de pion
-            var player = document.cookie.split('=')[1];
-            if(player == self.color && player == window.player ) {
+            //check si c'est notre couleur de pion et que c'est notre tour
+            if(window.player == self.color && window.player == window.turn) {
                 var selectedPawn = window.Map.getSelectedPawn();
                 if (!selectedPawn || selectedPawn == self) {
                     if (self.selected == true) {
@@ -95,13 +104,15 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 this.queen = true;
             }
             this.selected = false;
-        }
-        if (movePossible == true) {
-            return false;
-        }
-        else if (typeof movePossible == 'object') {
-            movePossible.del();
-            return true;
+            
+            //on return false pour un deplacement normal et true si on à mangé
+            if (movePossible == true) {
+                return false;
+            }
+            else if (typeof movePossible == 'object') {
+                movePossible.del();
+                return true;
+            }
         }
     };
     
@@ -131,6 +142,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     return window.Map.grid[posY+1][posX+1];
                 } else {
                     //click sur une mauvaise case
+                    Util.addAlert("Souffler n'est pas jouer", "error");
                     return false;
                 }
             // sinon on verifie que le deplacement soit correct
@@ -140,6 +152,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 return true;
             } else {
                 //click sur une mauvaise case
+                Util.addAlert("Deplacement impossible", "error");
                 return false;
             }
         }
@@ -153,6 +166,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     return window.Map.grid[posY-1][posX+1];
                 } else {
                     //click sur une mauvaise case
+                    Util.addAlert("Souffler n'est pas jouer", "error");
                     return false;
                 }
             // sinon on verifie que le deplacement soit correct
@@ -162,10 +176,11 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                return true;
             } else {
                 //click sur une mauvaise case
+                Util.addAlert("Deplacement impossible", "error");
                 return false;
             }
         }
-    }
+    };
     
     Pawn.prototype.isJumpBL = function(selectedPawn) {
         var posX = selectedPawn.posX,

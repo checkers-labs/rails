@@ -26,7 +26,7 @@ function waitForInvite() {
                     });
                 }
             } else if(data[0] == 'game') {
-                window.location='/game'
+                window.location='/game';
             }
         },
         complete: function ( jqXHR, textStatus ) {

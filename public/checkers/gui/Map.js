@@ -48,9 +48,9 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                             var selectedPawn = self.getSelectedPawn();
                             var posPawn = {x: selectedPawn.posX, y:selectedPawn.posY};
                             console.log('selectedPawn:',selectedPawn);
-                            if (!selectedPawn) {
-                                console.log('no selected pawn');
-                            } else {
+                            if (!selectedPawn && window.player == window.turn) {
+                                Util.addAlert("Veuillez selectionner un pion", "error");
+                            } else if(selectedPawn) {
                                 var coordinateClick = {x: this.getX(), y: this.getY()};
                                 console.log('coordinateClick:',coordinateClick);
                                 

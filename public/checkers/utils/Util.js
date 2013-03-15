@@ -17,6 +17,16 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                 var coordinate = new Array(x*c.WIDTH_TILE, y*c.HEIGHT_TILE);
                 return coordinate;
             },
+            addAlert: function(text, type) {
+                switch(type) {
+                    case 'info':
+                        $('#game_alert-info').html(text);
+                        break;
+                    case 'error':
+                        $('#game_alert-error').html(text)
+                        break;
+                }
+            },
             sendMove: function(posBefore,posAfter,again) {
                 var self=this;
                 $.ajax({
@@ -30,7 +40,8 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data, textStatus, jqXHR){
                         // si c'est à l'autre de jouer
                         if(!again) {
-                            window.player = window.player == 1 ? 0 : 1;
+                            window.turn = window.turn == 1 ? 0 : 1;
+                            self.addAlert("C'est à votre adversaire de jouer !", "info");
                             self.getMove();
                         }                                   
                     }                          
@@ -49,7 +60,8 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                             pawn.move(posPawn);
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
-                                window.player = window.player == 1 ? 0 : 1;
+                                window.turn = window.turn == 1 ? 0 : 1;
+                                self.addAlert('A votre tour de jouer ;)', 'info');
                             } else {
                                 self.getMove();
                             }
