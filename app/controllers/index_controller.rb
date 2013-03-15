@@ -7,7 +7,10 @@ class IndexController < ApplicationController
   def index    
     @sessionRedis = Array.new;
     $redis.keys('session:*').each do |id|
-      @sessionRedis.push(Marshal.load($redis.get(id)))
+      user = Marshal.load($redis.get(id))
+      if(user['user_id'])
+        @sessionRedis.push(user)
+      end
     end
     render "index"
   end

@@ -7,5 +7,5 @@
     float: right;
 }
 .alert {
-    width: 100%;
+    /*width: inherit;*/
 }

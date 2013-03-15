@@ -128,7 +128,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
     };
     
     Pawn.prototype.isMovePossible = function(posClick) {
-        var jump = window.Map.mustWeMakeJump(window.player),
+        var jump = window.Map.mustWeMakeJump(window.turn),
         posX = this.posX,
         posY = this.posY;
         console.log('mustWeMakeJump:',jump);

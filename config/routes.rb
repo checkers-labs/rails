@@ -4,12 +4,13 @@ First::Application.routes.draw do
     match 'login' => 'users#login'
     match 'logout' => 'users#logout'    
   resources :index
-    match 'index' => 'index#index'
+    #match 'index' => 'index#index'
     match 'sendInvite/:id' => 'index#sendInvite'
     match 'cancelInvite' => 'index#cancelInvite'
     match 'acceptInvite' => 'index#acceptInvite'
     match 'wait' => 'index#wait'
   resources :game
+    #match 'index' => 'game#index'
     match 'game' => 'game#index'
     match 'setMove' => 'game#setMove'
     match 'getMove' => 'game#getMove'
