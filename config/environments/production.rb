@@ -41,14 +41,6 @@ First::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
-  config.cache_store = :redis_store, "redis://redis:66d3f840-1e37-4fc9-a403-07a2f7c9c61b@localhost:10000/0/cache", { expires_in: 90.minutes }
-
-  # POUR APPFOG, NE FONCTIONNE PAS
-  #services = JSON.parse(ENV['VCAP_SERVICES'])
-  #redis_key = services.keys.select { |svc| svc =~ /redis/i }.first
-  #redis = services[redis_key].first['credentials']
-  #redis_conf = {:host => redis['hostname'], :port => redis['port'], :password => redis['password']}
-  #@@redis = Redis.new redis_conf
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
