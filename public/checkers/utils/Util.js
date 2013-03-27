@@ -55,9 +55,11 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     dataType: "json",
                     success:function(data, textStatus, jqXHR){
                         if(data){
-                            var pawn = window.Map.grid[data[1][1]][data[1][0]];
-                            var posPawn = {x: data[2][0], y:data[2][1]};
-                            pawn.move(posPawn);
+                            for(var i=1 ; i<data.length ; i+2){
+                                var pawn = window.Map.grid[data[i][1]][data[i][0]];
+                                var posPawn = {x: data[i+1][0], y:data[i+1][1]};
+                                pawn.move(posPawn);
+                            }
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
                                 window.turn = window.turn == 1 ? 0 : 1;
@@ -66,7 +68,7 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                                 self.getMove();
                             }
                         }else{                                
-                           setTimeout(function () { self.getMove(); }, 500); 
+                           setTimeout(function () { self.getMove(); }, 3000); 
                         }
                     }     
                 });
