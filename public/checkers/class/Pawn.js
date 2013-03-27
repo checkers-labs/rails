@@ -130,7 +130,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
     Pawn.prototype.isMovePossible = function(posClick) {
         var jump = window.Map.mustWeMakeJump(window.turn),
         posX = this.posX,
-        posY = this.posY;
+        posY = this.posY, 
+        result = false;
         console.log('mustWeMakeJump:',jump);
         // si c'est un pion de couleur rouge ou si c'est une dame
         debugger
@@ -138,23 +139,23 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY+2 && posClick[0] == posX-2) {
-                    return window.Map.grid[posY+1][posX-1];
+                    result = window.Map.grid[posY+1][posX-1];
                 } else if (posClick[1] == posY+2 &&posClick[0] == posX+2) {
-                    return window.Map.grid[posY+1][posX+1];
+                    result = window.Map.grid[posY+1][posX+1];
                 } else {
                     //click sur une mauvaise case
                     Util.addAlert("Souffler n'est pas jouer", "error");
-                    return false;
+                    result = false;
                 }
             // sinon on verifie que le deplacement soit correct
             } else if (posClick[1] == posY+1
                 && (posClick[0] == posX-1 || posClick[0] == posX+1)
                 && window.Map.grid[posClick[1]][posClick[0]] == 0) {
-                return true;
+                result = true;
             } else {
                 //click sur une mauvaise case
                 Util.addAlert("Deplacement impossible", "error");
-                return false;
+                result = false;
             }
         }
         // si c'est un pion de couleur bleu ou si c'est une dame
@@ -162,25 +163,26 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY-2 && posClick[0] == posX-2) {
-                    return window.Map.grid[posY-1][posX-1];
+                    result = window.Map.grid[posY-1][posX-1];
                 } else if (posClick[1] == posY-2 && posClick[0] == posX+2) {
-                    return window.Map.grid[posY-1][posX+1];
+                    result = window.Map.grid[posY-1][posX+1];
                 } else {
                     //click sur une mauvaise case
                     Util.addAlert("Souffler n'est pas jouer", "error");
-                    return false;
+                    result = false;
                 }
             // sinon on verifie que le deplacement soit correct
             } else if (posClick[1] == posY-1 
                 && (posClick[0] == posX-1 || posClick[0] == posX+1)
                 && window.Map.grid[posClick[1]][posClick[0]] == 0) {
-               return true;
+                result = true;
             } else {
                 //click sur une mauvaise case
                 Util.addAlert("Deplacement impossible", "error");
-                return false;
+                result = false;
             }
         }
+        return result;
     };
     
     Pawn.prototype.isJumpBL = function(selectedPawn) {
