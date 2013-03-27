@@ -53,3 +53,11 @@ production:
   pool: 5
   username: root
   password: admin
+
+proxied-appfog:
+  adapter  : postgresql
+  database : d95dd73a45ebe4ca2a6c6945e7abc7237
+  username : u2423ad6bbb994b81922b4307e2b63cc6
+  password : p368d4bf800fb42d8b539db53a1b6fc62
+  port     : 10000
+  host     : 127.0.0.1

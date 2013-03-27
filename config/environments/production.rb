@@ -9,7 +9,7 @@ First::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.server_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -41,12 +41,21 @@ First::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_store, "redis://redis:66d3f840-1e37-4fc9-a403-07a2f7c9c61b@localhost:10000/0/cache", { expires_in: 90.minutes }
+
+  # POUR APPFOG, NE FONCTIONNE PAS
+  #services = JSON.parse(ENV['VCAP_SERVICES'])
+  #redis_key = services.keys.select { |svc| svc =~ /redis/i }.first
+  #redis = services[redis_key].first['credentials']
+  #redis_conf = {:host => redis['hostname'], :port => redis['port'], :password => redis['password']}
+  #@@redis = Redis.new redis_conf
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
+  config.assets.precompile += ['index.js', 'users.css', 'game.css']
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

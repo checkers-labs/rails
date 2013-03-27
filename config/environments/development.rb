@@ -34,4 +34,7 @@ First::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  # Use a different cache store
+  config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
 end
