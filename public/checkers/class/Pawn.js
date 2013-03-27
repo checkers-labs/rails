@@ -134,6 +134,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         result = false;
         console.log('mustWeMakeJump:',jump);
         // si c'est un pion de couleur rouge ou si c'est une dame
+        debugger
         if (this.color == 0 || this.queen) {
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
