@@ -66,7 +66,7 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                                 self.getMove();
                             }
                         }else{                                
-                           setTimeout(function () { self.getMove(); }, 50); 
+                           setTimeout(function () { self.getMove(); }, 500); 
                         }
                     }     
                 });

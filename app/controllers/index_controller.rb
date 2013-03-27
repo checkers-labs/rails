@@ -6,8 +6,8 @@ class IndexController < ApplicationController
   
   def index    
     @sessionRedis = Array.new;
-    $redis.keys('session:*').each do |id|
-      user = Marshal.load($redis.get(id))
+    @@redis.keys('session:*').each do |id|
+      user = Marshal.load(@@redis.get(id))
       if(user['user_id'])
         @sessionRedis.push(user)
       end
@@ -17,23 +17,23 @@ class IndexController < ApplicationController
   
   def sendInvite
     # si aucune invitation pour l'user en session on ajoute son invitation
-    if ($redis.keys("invitation:from#{session[:user_id]}to*").any? == false)
+    if (@@redis.keys("invitation:from#{session[:user_id]}to*").any? == false)
       id = "invitation:from#{session[:user_id]}to#{params[:id]}"
       userJson = [session[:user_id], session[:user_name]].to_json
-      $redis.set(id, userJson)
+      @@redis.set(id, userJson)
       render :nothing => true
     end
   end
   
   def cancelInvite
-    key = $redis.keys("invitation:from#{params[:id]}to*")
-    $redis.del(key)
+    key = @@redis.keys("invitation:from#{params[:id]}to*")
+    @@redis.del(key)
     render :nothing => true
   end
   
   def acceptInvite     
-    key = $redis.keys("invitation:from#{params[:id]}to*")
-    $redis.del(key)   
+    key = @@redis.keys("invitation:from#{params[:id]}to*")
+    @@redis.del(key)   
     game = "game:from#{params[:id]}to#{session[:user_id]}"   
     userGame = [session[:user_id], Integer(params[:id])].to_json
     session[:game]=game
@@ -41,22 +41,22 @@ class IndexController < ApplicationController
       :value => 0,
       :expires => 2.hour.from_now
     }
-    $redis.set(game,userGame)
+    @@redis.set(game,userGame)
     render :text => true, :content_type => "text/plain"
   end
   
   def wait
     result = false
-    key = $redis.keys("invitation:from*to#{session[:user_id]}")
+    key = @@redis.keys("invitation:from*to#{session[:user_id]}")
       if (key.any? != false)
         redis = JSON.parse($redis.get(key))
         result = ['invite', redis[0], redis[1]]
       else
-        key = $redis.keys("game:from#{session[:user_id]}to*")
+        key = @@redis.keys("game:from#{session[:user_id]}to*")
       end
       
       if (result == false && key.any? != false)
-        redis = JSON.parse($redis.get(key))
+        redis = JSON.parse(@@redis.get(key))
         result = ['game', redis[0], redis[1]].to_json
         session[:game] = key
         cookies[:player] = {
