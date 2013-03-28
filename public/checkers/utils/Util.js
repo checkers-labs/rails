@@ -27,6 +27,9 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                         break;
                 }
             },
+            supprAlert: function(){
+                $('#game_alert-info').html();
+            },
             sendMove: function(posBefore,posAfter,again) {
                 var self=this;
                 $.ajax({
