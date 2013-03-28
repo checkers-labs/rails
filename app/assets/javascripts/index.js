@@ -30,7 +30,7 @@ function waitForInvite() {
             }
         },
         complete: function ( jqXHR, textStatus ) {
-            setTimeout(function () { waitForInvite(); }, 3000);
+            setTimeout(function () { waitForInvite(); }, 50);
         }
       });
 }
