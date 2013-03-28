@@ -145,7 +145,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     result = window.Map.grid[posY+1][posX+1];
                 } else {
                     //click sur une mauvaise case
-                    souffler =  false;
+                    souffler = false;
                     result = false;
                 }
             // sinon on verifie que le deplacement soit correct
@@ -169,7 +169,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     result = window.Map.grid[posY-1][posX+1];
                 } else {
                     //click sur une mauvaise case
-                    souffler =  false;
+                    souffler = false;
                     result = false;
                 }
             // sinon on verifie que le deplacement soit correct
