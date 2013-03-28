@@ -31,7 +31,7 @@ class GameController < ApplicationController
       user[5]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]    
     else
       user[user.length]=[Integer(params[:pawnBefore][0]),Integer(params[:pawnBefore][1])]
-      user[user.length+1]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]    
+      user[user.length]=[Integer(params[:pawnAfter][0]),Integer(params[:pawnAfter][1])]    
     end
     @@redis.set(session[:game],user.to_json)
     render :text => true, :content_type => "text/plain"
