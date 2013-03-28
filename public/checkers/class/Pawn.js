@@ -6,6 +6,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
     function Pawn (color) {
         var self = this;
         this.selected = false;
+        this.again = false;
         this.queen = false;
         this.color = color;
         this.posX = 0;
@@ -26,7 +27,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             //check si c'est notre couleur de pion et que c'est notre tour
             if(window.player == self.color && window.player == window.turn) {
                 var selectedPawn = window.Map.getSelectedPawn();
-                if (!selectedPawn || selectedPawn == self) {
+                if (!selectedPawn.again && (!selectedPawn || selectedPawn == self)) {
                     if (self.selected == true) {
                         self.selected = false;
                         this.setImage(Resource.images.RESOURCE_PAWN);
@@ -89,7 +90,9 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 y: coordinateClick.y + c.MARGIN_HEIGHT,
                 duration: 1,
                 callback: function() {
-                    self.delStroke();
+                    if(!self.again) {
+                        self.delStroke();
+                    }
                 }
             });
             //on modifie sa position dans la grille
@@ -104,6 +107,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 this.queen = true;
             }
             this.selected = false;
+            this.again = false;
             
             //on return false pour un deplacement normal et true si on à mangé
             if (movePossible == true) {
@@ -217,6 +221,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 return true;
             }
         }
+        return false
     };
     
     Pawn.prototype.isJumpBL = function() {
