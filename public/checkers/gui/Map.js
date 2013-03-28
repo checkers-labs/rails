@@ -57,7 +57,7 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                                 var move = selectedPawn.move(coordinateClick);
                                 if (move == true) {
                                     // play again ?
-                                    var again = self.mustWeMakeJump(window.player);
+                                    var again = selectedPawn.mustPawnMakeJump(window.player);
                                     console.log('again',again);
                                     Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], again);
                                 } else if (move == false) {
@@ -101,27 +101,9 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
                         if (typeof this.grid[i][j] == "object") {
-                            var selectedPawn = this.grid[i][j];
-                            // si c'est un pion de couleur rouge ou si c'est une dame
-                            if (selectedPawn.color == player 
-                                    && (selectedPawn.queen || selectedPawn.color == 0)) {
-                                // on regarde si on peut manger en bas à gauche
-                                if(selectedPawn.isJumpBL(selectedPawn)) {
-                                   return true;
-                                // on regarde si on peut manger en bas à droite
-                                } else if (selectedPawn.isJumpBR(selectedPawn)) {
-                                    return true;
-                                }
-                            }
-                            if (selectedPawn.color == player 
-                                    && (selectedPawn.queen || selectedPawn.color == 1)) {
-                                // on regarde si on peut manger en haut à gauche
-                                if(selectedPawn.isJumpTL(selectedPawn)) {
-                                   return true;
-                                // on regarde si on peut manger en haut à droite
-                                } else if (selectedPawn.isJumpTR(selectedPawn)) {
-                                    return true;
-                                }
+                            var mustPawnMakeJump = this.grid[i][j].mustPawnMakeJump(player);
+                            if(typeof mustPawnMakeJump != "undefined") {
+                               return mustPawnMakeJump;
                             }
                         }
                     }

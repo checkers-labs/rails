@@ -158,7 +158,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             }
         }
         // si c'est un pion de couleur bleu ou si c'est une dame
-        if (this.color == 1  || this.queen) {
+        if (this.color == 1  || (this.queen && !result)) {
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY-2 && posClick[0] == posX-2) {
@@ -184,10 +184,34 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         return result;
     };
     
-    Pawn.prototype.isJumpBL = function(selectedPawn) {
-        var posX = selectedPawn.posX,
-        posY = selectedPawn.posY,
-        color = selectedPawn.color;
+    Pawn.prototype.mustPawnMakeJump = function(player) {
+        // si c'est un pion de couleur rouge ou si c'est une dame
+        if (this.color == player 
+                && (this.queen || this.color == 0)) {
+            // on regarde si on peut manger en bas à gauche
+            if(this.isJumpBL()) {
+               return true;
+            // on regarde si on peut manger en bas à droite
+            } else if (this.isJumpBR()) {
+                return true;
+            }
+        }
+        if (this.color == player 
+                && (this.queen || this.color == 1)) {
+            // on regarde si on peut manger en haut à gauche
+            if(this.isJumpTL()) {
+               return true;
+            // on regarde si on peut manger en haut à droite
+            } else if (this.isJumpTR()) {
+                return true;
+            }
+        }
+    };
+    
+    Pawn.prototype.isJumpBL = function() {
+        var posX = this.posX,
+        posY = this.posY,
+        color = this.color;
         
         if(posY+1 <=7
             && typeof window.Map.grid[posY+1][posX-1] == "object" 
@@ -201,10 +225,10 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         }
     };
     
-    Pawn.prototype.isJumpBR = function(selectedPawn) {
-        var posX = selectedPawn.posX,
-        posY = selectedPawn.posY,
-        color = selectedPawn.color;
+    Pawn.prototype.isJumpBR = function() {
+        var posX = this.posX,
+        posY = this.posY,
+        color = this.color;
         
         if(posY+1 <=7
             && typeof window.Map.grid[posY+1][posX+1] == "object" 
@@ -218,10 +242,10 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         }
     };
     
-    Pawn.prototype.isJumpTL = function(selectedPawn) {
-        var posX = selectedPawn.posX,
-        posY = selectedPawn.posY,
-        color = selectedPawn.color;
+    Pawn.prototype.isJumpTL = function() {
+        var posX = this.posX,
+        posY = this.posY,
+        color = this.color;
         
         if(posY-1 >= 0
             && typeof window.Map.grid[posY-1][posX-1] == "object" 
@@ -235,10 +259,10 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         }
     };
     
-    Pawn.prototype.isJumpTR = function(selectedPawn) {
-        var posX = selectedPawn.posX,
-        posY = selectedPawn.posY,
-        color = selectedPawn.color;
+    Pawn.prototype.isJumpTR = function() {
+        var posX = this.posX,
+        posY = this.posY,
+        color = this.color;
         
         if(posY-1 >= 0
             && typeof window.Map.grid[posY-1][posX+1] == "object" 
