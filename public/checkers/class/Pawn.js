@@ -131,7 +131,9 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         var jump = window.Map.mustWeMakeJump(window.turn),
         posX = this.posX,
         posY = this.posY, 
-        result = false;
+        result = false,
+        deplacement = true,
+        souffler =  true;
         console.log('mustWeMakeJump:',jump);
         // si c'est un pion de couleur rouge ou si c'est une dame
         if (this.color == 0 || this.queen) {
@@ -143,7 +145,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     result = window.Map.grid[posY+1][posX+1];
                 } else {
                     //click sur une mauvaise case
-                    Util.addAlert("Souffler n'est pas jouer", "error");
+                    souffler =  false;
                     result = false;
                 }
             // sinon on verifie que le deplacement soit correct
@@ -152,8 +154,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 && window.Map.grid[posClick[1]][posClick[0]] == 0) {
                 result = true;
             } else {
-                //click sur une mauvaise case
-                Util.addAlert("Deplacement impossible", "error");
+                //click sur une mauvaise case  
+                deplacement = false              
                 result = false;
             }
         }
@@ -167,7 +169,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                     result = window.Map.grid[posY-1][posX+1];
                 } else {
                     //click sur une mauvaise case
-                    Util.addAlert("Souffler n'est pas jouer", "error");
+                    souffler =  false;
                     result = false;
                 }
             // sinon on verifie que le deplacement soit correct
@@ -177,9 +179,18 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 result = true;
             } else {
                 //click sur une mauvaise case
-                Util.addAlert("Deplacement impossible", "error");
+                deplacement = false
                 result = false;
             }
+        }
+        if(!deplacement){
+            Util.addAlert("Deplacement impossible", "error");
+            
+        }else if(!souffler){
+             Util.addAlert("Souffler n'est pas jouer", "error");
+        }
+        else{
+            Util.supprAlert();
         }
         return result;
     };
