@@ -23,12 +23,13 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                         $('#game_alert-info').html(text);
                         break;
                     case 'error':
-                        $('#game_alert-error').html(text)
+                        $('.alert-error').show();
+                        $('#game_alert-error').html(text);
                         break;
                 }
             },
-            supprAlert: function(){
-                $('#game_alert-info').html();
+            supprAlert: function(){                
+                $('.alert-error').hide();
             },
             sendMove: function(posBefore,posAfter,again) {
                 var self=this;
