@@ -36,7 +36,7 @@ function waitForInvite() {
 }
 
 $(document).ready(function() {
-    waitForInvite();    
+    waitForInvite(); 
 });
 
 $(".ajax").click(function(event) {

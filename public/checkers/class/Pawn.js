@@ -164,7 +164,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             }
         }
         // si c'est un pion de couleur bleu ou si c'est une dame
-        if (this.color == 1  || (this.queen && !result)) {
+        if (!result && (this.color == 1  || this.queen)) {
             // si il faut manger on verifie que le clic soit bon
             if (jump) {
                 if(posClick[1] == posY-2 && posClick[0] == posX-2) {
