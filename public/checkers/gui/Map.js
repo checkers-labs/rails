@@ -54,13 +54,17 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                                 var coordinateClick = {x: this.getX(), y: this.getY()};
                                 console.log('coordinateClick:',coordinateClick);
                                 
-                                var move = selectedPawn.move(coordinateClick);
-                                if (move == true) {
+                                var jumpedMove = selectedPawn.move(coordinateClick);
+                                if (jumpedMove == true) {
                                     // play again ?
                                     var again = selectedPawn.mustPawnMakeJump(window.player);
+                                    if(again) {
+                                        selectedPawn.selected = true;
+                                        selectedPawn.again = true;
+                                    }
                                     console.log('again',again);
                                     Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], again);
-                                } else if (move == false) {
+                                } else if (jumpedMove == false) {
                                     Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], false);
                                 }
                             }
@@ -101,9 +105,8 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
                         if (typeof this.grid[i][j] == "object") {
-                            var mustPawnMakeJump = this.grid[i][j].mustPawnMakeJump(player);
-                            if(typeof mustPawnMakeJump != "undefined") {
-                               return mustPawnMakeJump;
+                            if(this.grid[i][j].mustPawnMakeJump(player)) {
+                               return true;
                             }
                         }
                     }
