@@ -54,8 +54,10 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     url: "/getMove",
                     dataType: "json",
                     success:function(data, textStatus, jqXHR){
+                        debugger;
                         if(data){
-                            for(var i=1 ; i<data.length ; i+2){
+                            debugger;
+                            for(var i=1 ; i<data.length ; i+=2){
                                 var pawn = window.Map.grid[data[i][1]][data[i][0]];
                                 var posPawn = {x: data[i+1][0], y:data[i+1][1]};
                                 pawn.move(posPawn);
@@ -68,7 +70,7 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                                 self.getMove();
                             }
                         }else{                                
-                           setTimeout(function () { self.getMove(); }, 3000); 
+                           setTimeout(function () { self.getMove(); }, 6000); 
                         }
                     }     
                 });
