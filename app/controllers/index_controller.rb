@@ -8,7 +8,7 @@ class IndexController < ApplicationController
     @sessionRedis = Array.new;
     @@redis.keys('session:*').each do |id|
       user = Marshal.load(@@redis.get(id))
-      if(user['user_id'])
+      if(user['user_id'] && user['user_id']!=session[:user_id])
         @sessionRedis.push(user)
       end
     end
