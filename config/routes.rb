@@ -9,6 +9,7 @@ First::Application.routes.draw do
     match 'cancelInvite' => 'index#cancelInvite'
     match 'acceptInvite' => 'index#acceptInvite'
     match 'wait' => 'index#wait'
+    match 'keepAlive' => 'index#keepAlive'
   resources :game
     #match 'index' => 'game#index'
     match 'game' => 'game#index'

@@ -39,7 +39,7 @@ class IndexController < ApplicationController
     session[:game]=game
     cookies[:player] = {
       :value => 0,
-      :expires => 2.hour.from_now
+      :expires => 2.hours.from_now
     }
     @@redis.set(game,userGame)
     render :text => true, :content_type => "text/plain"
@@ -61,10 +61,16 @@ class IndexController < ApplicationController
         session[:game] = key
         cookies[:player] = {
           :value => 1,
-          :expires => 2.hour.from_now
+          :expires => 2.hours.from_now
         }
       end
     render :text => result, :content_type => "text/plain"
+  end
+  
+  def keepAlive
+    @@redis.expire("session:#{session[:user_id]}", 300)
+    
+    render :nothing => true
   end
 
 end

@@ -13,3 +13,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+
+function keepAlive() {
+    $.ajax({
+        type: "GET",
+        url: "/keepAlive",
+        complete: function ( jqXHR, textStatus ) {
+            setTimeout(function () { keepAlive(); }, 120000);
+        }
+    });
+}
+
+$(document).ready(function() {
+    keepAlive(); 
+});
