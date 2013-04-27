@@ -118,7 +118,30 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
             }, 
             getWidth: function() {
                 return this.mapData.map[0].length;
-            }
+            },
+            isPlayerDead : function() {
+                var Player0 = false;
+                var Player1 = false;
+                for(var i = 0, l = this.grid.length ; i < l ; i++) {
+                    for(var j = 0, k = this.grid[i].length ; j < k ; j++) {                     
+                        if (typeof this.grid[i][j] == "object") {
+                           if(this.grid[i][j].color==0){
+                               Player0=true;
+                           }else{
+                               Player1=true;
+                           }
+                        }
+                        if(Player0 && Player1){
+                            return 2;//still in game
+                        }
+                    }
+                }
+                if(!Player0){
+                    return 0;//first dead
+                }else{
+                    return 1;//second dead
+                }                
+            },
         };
     }
 );

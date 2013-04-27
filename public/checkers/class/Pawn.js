@@ -114,6 +114,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 return false;
             }
             else if (typeof movePossible == 'object') {
+                window.maxTurn=25;// si persone ne bouffe en 25 coup fin de game
                 movePossible.del();
                 return true;
             }

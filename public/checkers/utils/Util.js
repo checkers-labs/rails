@@ -44,6 +44,10 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                     success:function(data, textStatus, jqXHR){
                         // si c'est à l'autre de jouer
                         if(!again) {
+                            window.maxTurn--;
+                            if(window.maxTurn==0){
+                                alert('finish');
+                            }
                             window.turn = window.turn == 1 ? 0 : 1;
                             self.addAlert("C'est à votre adversaire de jouer !", "info");
                             self.getMove();
@@ -66,6 +70,13 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
                             }
                             // si à nous de jouer
                             if(!JSON.parse(data[0])) {
+                                 window.maxTurn--;
+                                 if(window.Map.getNumberPawns()!=2){
+                                     alert('finish');
+                                 }
+                                if(window.maxTurn==0){
+                                    alert('finish');
+                                }
                                 window.turn = window.turn == 1 ? 0 : 1;
                                 self.addAlert('A votre tour de jouer ;)', 'info');
                             } else {

@@ -1,14 +1,6 @@
 requirejs.config({
     //By default load any module IDs from /checkers
-    baseUrl: '/checkers/',
-    //except, if the module ID starts with "app",
-    //load it from the js/app directory. paths
-    //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
-    //the paths config could be for a directory.
-    //paths: {
-    //    app: '../app'
-    //}
+    baseUrl: '/checkers/'
 });
 
 // Start the main app logic.
@@ -19,7 +11,7 @@ function (kinetic, underscore, c, Resource, Map, Util) {
         window.player = document.cookie.split('=')[1];
         window.turn = 0;
         window.Map = Map;
-        
+        window.maxTurn=25;
         if(window.player == 1) {
             Util.addAlert("C'est à votre adversaire de jouer !", "info");
             Util.getMove();
