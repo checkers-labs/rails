@@ -1,5 +1,9 @@
 define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
-        return {            
+        return {
+            urlParam: function(name){
+                var result = new RegExp(name + "=([^&]*)", "i").exec(window.location.search); 
+                return result && result[1] || false; 
+            },
             getMapJSON: function(name) {
                 var xhr = oXHR.getXMLHttpRequest();
                 xhr.open("GET", '/checkers/config/maps/' + name + '.json', false);
@@ -31,6 +35,15 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
             supprAlert: function(){                
                 $('.alert-error').hide();
             },
+            switchTurn: function() {
+                window.maxTurn--;
+                if(window.maxTurn==0){
+                    alert('finish');
+                }
+                window.turn = window.turn == 1 ? 0 : 1;
+                window.player = window.player == 1 ? 0 : 1;
+                this.addAlert("C'est à votre adversaire de jouer !", "info");
+            },
             sendMove: function(posBefore,posAfter,again) {
                 var self=this;
                 $.ajax({
@@ -57,36 +70,38 @@ define(['libraries/oXHR', 'config/constants'], function(oXHR, c) {
             },
             getMove: function() {
                 var self=this;
-                $.ajax({
-                    type: "GET",
-                    url: "/getMove",
-                    dataType: "json",
-                    success:function(data, textStatus, jqXHR){                        
-                        if(data){                            
-                            for(var i=1 ; i<data.length ; i+=2){
-                                var pawn = window.Map.grid[data[i][1]][data[i][0]];
-                                var posPawn = {x: data[i+1][0], y:data[i+1][1]};
-                                pawn.move(posPawn);
-                            }
-                            // si à nous de jouer
-                            if(!JSON.parse(data[0])) {
-                                 window.maxTurn--;
-                                 if(window.Map.getNumberPawns()!=2){
-                                     alert('finish');
-                                 }
-                                if(window.maxTurn==0){
-                                    alert('finish');
+                if(window.mod != "single") {
+                    $.ajax({
+                        type: "GET",
+                        url: "/getMove",
+                        dataType: "json",
+                        success:function(data, textStatus, jqXHR){                        
+                            if(data){                            
+                                for(var i=1 ; i<data.length ; i+=2){
+                                    var pawn = window.Map.grid[data[i][1]][data[i][0]];
+                                    var posPawn = {x: data[i+1][0], y:data[i+1][1]};
+                                    pawn.move(posPawn);
                                 }
-                                window.turn = window.turn == 1 ? 0 : 1;
-                                self.addAlert('A votre tour de jouer ;)', 'info');
-                            } else {
-                                self.getMove();
+                                // si à nous de jouer
+                                if(!JSON.parse(data[0])) {
+                                     window.maxTurn--;
+                                     if(window.Map.getNumberPawns()!=2){
+                                         alert('finish');
+                                     }
+                                    if(window.maxTurn==0){
+                                        alert('finish');
+                                    }
+                                    window.turn = window.turn == 1 ? 0 : 1;
+                                    self.addAlert('A votre tour de jouer ;)', 'info');
+                                } else {
+                                    self.getMove();
+                                }
+                            }else{                                
+                               setTimeout(function () { self.getMove(); }, 2000); 
                             }
-                        }else{                                
-                           setTimeout(function () { self.getMove(); }, 2000); 
-                        }
-                    }     
-                });
+                        }     
+                    });
+                }
             }
         };
     }

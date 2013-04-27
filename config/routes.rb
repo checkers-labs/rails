@@ -12,7 +12,7 @@ First::Application.routes.draw do
     match 'keepAlive' => 'index#keepAlive'
   resources :game
     #match 'index' => 'game#index'
-    match 'game' => 'game#index'
+    match 'game(/:id)' => 'game#index'
     match 'setMove' => 'game#setMove'
     match 'getMove' => 'game#getMove'
   

@@ -10,8 +10,13 @@ function (kinetic, underscore, c, Resource, Map, Util) {
         // on set le tour pour le joueur et on passe la Map en global
         window.player = document.cookie.split('=')[1];
         window.turn = 0;
+        window.maxTurn = 25;
         window.Map = Map;
-        window.maxTurn=25;
+        // gestion du mode solo
+        window.mod = Util.urlParam("mod");
+        if(window.mod == "single") {
+            window.player = 0;
+        }
         if(window.player == 1) {
             Util.addAlert("C'est à votre adversaire de jouer !", "info");
             Util.getMove();
