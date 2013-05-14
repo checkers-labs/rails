@@ -10,6 +10,7 @@ define([], function() {
             HEIGHT_PAWN     : 40,
             MARGIN_WIDTH    : (60 - 40)/2,
             MARGIN_HEIGHT   : (60 - 40)/2,
+            PADDING         : 32,
 
             //Ressources
             RESOURCES: { 

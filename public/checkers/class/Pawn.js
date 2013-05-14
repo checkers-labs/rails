@@ -48,35 +48,27 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
      * @param yCanvas
      */
     Pawn.prototype.draw = function(xCanvas, yCanvas) {
+        var xTileset = 1
+        , yTileset = 1;
         if (this.color) {
-            this.kineticImg.setAttrs({
-                x: xCanvas,
-                y: yCanvas,
-                image: Resource.images.RESOURCE_PAWN,
-                width: c.WIDTH_PAWN,
-                height: c.HEIGHT_PAWN,
-                crop: {
-                    x: 0,
-                    y: 0,
-                    width: c.WIDTH_PAWN,
-                    height: c.HEIGHT_PAWN
-                    }
-            });
-            } else {
-                this.kineticImg.setAttrs({
-                x: xCanvas,
-                y: yCanvas,
-                image: Resource.images.RESOURCE_PAWN,
-                width: c.WIDTH_PAWN,
-                height: c.HEIGHT_PAWN,
-                crop: {
-                    x: c.WIDTH_PAWN,
-                    y: 0,
-                    width: c.WIDTH_PAWN,
-                    height: c.HEIGHT_PAWN
-                }
-            });
+            xTileset = 2;
+            yTileset = 1;
         }
+        
+        this.kineticImg.setAttrs({
+            x: xCanvas,
+            y: yCanvas,
+            image: Resource.images.RESOURCE_PAWN,
+            width: c.WIDTH_PAWN,
+            height: c.HEIGHT_PAWN,
+            crop: {
+                x: (xTileset - 1) * c.WIDTH_PAWN,
+                y: (yTileset - 1) * c.HEIGHT_PAWN,
+                width: c.WIDTH_PAWN,
+                height: c.HEIGHT_PAWN
+                }
+        });
+
         window.Map.layerPawn.add(this.kineticImg);
     };
     

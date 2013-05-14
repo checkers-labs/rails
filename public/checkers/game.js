@@ -9,21 +9,22 @@ function (kinetic, underscore, sonic, c, Resource, Map, Util) {
     var square = new Sonic({
         width: 100,
         height: 50,
-        stepsPerFrame: 1,
-        trailLength: 1,
-        pointDistance: .1,
-        fps: 15,
         padding: 10,
-        //step: 'fader',
-
-        fillColor: '#FF2E82',
-
+        stepsPerFrame: 2,
+        trailLength: 1,
+        pointDistance: .03,
+        strokeColor: '#FF7B24',
+        step: 'fader',
+        multiplier: 2,
         setup: function() {
-            this._.lineWidth = 20;
+            this._.lineWidth = 5;
         },
         path: [
-            ['line', 0, 20, 100, 20],
-            ['line', 100, 20, 0, 20]
+        
+            ['arc', 10, 10, 10, -270, -90],
+            ['bezier', 10, 0, 40, 20, 20, 0, 30, 20],
+            ['arc', 40, 10, 10, 90, -90],
+            ['bezier', 40, 0, 10, 20, 30, 0, 20, 20]
         ]
     });
     square.play();

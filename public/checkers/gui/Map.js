@@ -7,8 +7,8 @@
  */
 define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], function(c, Resource, Pawn, Util) {
         return {
-            init: function() {
-                this.mapData = JSON.parse(Util.getMapJSON("damier"));
+            init: function(callback) {
+                this.jsonData = JSON.parse(Util.getMapJSON("damier"));
                 
                 this.layerMap = new Kinetic.Layer();
                 this.layerPawn = new Kinetic.Layer();                
@@ -26,10 +26,12 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
             drawMap: function() {
                 var self = this;
                 
-                for(var i = 0, l = this.mapData.map.length ; i < l ; i++) {
-                    for(var j = 0, k = this.mapData.map[i].length ; j < k ; j++) {
+                for(var i = 0, l = this.jsonData.map.length ; i < l ; i++) {
+                    for(var j = 0, k = this.jsonData.map[i].length ; j < k ; j++) {
                         var coordinate = Util.posToCoordinate(j, i);
-                        var xTileset = (this.mapData.map[i][j]-1)*c.WIDTH_TILE;
+                        var xTileset = this.jsonData.map[i][j] % this.jsonData.size[0];
+                        if(xTileset == 0) xTileset = this.jsonData.map[i][j];
+                        var yTileset = Math.ceil(this.jsonData.map[i][j] / this.jsonData.size[0]);
                         var tileset = new Kinetic.Image({
                              x: coordinate[0],
                              y: coordinate[1],
@@ -37,8 +39,8 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                              width: c.WIDTH_TILE,
                              height: c.HEIGHT_TILE,
                              crop: {
-                                 x: xTileset,
-                                 y: 0,
+                                 x: (xTileset - 1) * c.WIDTH_TILE,
+                                 y: (yTileset - 1) * c.HEIGHT_TILE,
                                  width: c.WIDTH_TILE,
                                  height: c.HEIGHT_TILE
                              }
@@ -122,10 +124,10 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                 return false;
             },
             getHeight: function() {
-                return this.mapData.map.length;
+                return this.jsonData.map.length;
             }, 
             getWidth: function() {
-                return this.mapData.map[0].length;
+                return this.jsonData.map[0].length;
             },
             isPlayerDead : function() {
                 var Player0 = false;
