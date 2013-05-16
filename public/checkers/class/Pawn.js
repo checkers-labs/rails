@@ -30,12 +30,10 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 if (!selectedPawn.again && (!selectedPawn || selectedPawn == self)) {
                     if (self.selected == true) {
                         self.selected = false;
-                        this.setImage(Resource.images.RESOURCE_PAWN);
-                        window.Map.layerPawn.draw();
+                        self.delStroke();
                     } else {
                         self.selected = true;
-                        this.setImage(Resource.images.RESOURCE_PAWN_OVER);
-                        window.Map.layerPawn.draw();
+                        self.setStroke();
                     }
                 }
             }
@@ -74,7 +72,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
     
     Pawn.prototype.move = function(coordinateClick) {
         var self = this,
-        posClick = Util.coordinateToPos(coordinateClick.x, coordinateClick.y),
+        posClick = Util.coordinateToPos(coordinateClick.x, coordinateClick.y, 'pawn'),
         movePossible = this.isMovePossible(posClick);
         if(movePossible != false) {
             this.kineticImg.transitionTo({
@@ -94,9 +92,9 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
             this.posX = posClick[0];
             this.posY = posClick[1];
             if(this.color == 0 && this.posY == 7) {
-                this.queen = true;
+                this.setQueen();
             } else if(this.color == 1 && this.posY == 0) {
-                this.queen = true;
+                this.setQueen();
             }
             this.selected = false;
             this.again = false;
@@ -119,8 +117,56 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
         window.Map.layerPawn.draw();
     };
     
+    Pawn.prototype.setQueen = function() {
+        this.queen = true;
+        var xTileset = 1
+        , yTileset = 3;
+        if (this.color) {
+            xTileset = 2;
+            yTileset = 3;
+        }
+        this.kineticImg.setCrop({
+            x: (xTileset - 1) * c.WIDTH_PAWN,
+            y: (yTileset - 1) * c.HEIGHT_PAWN,
+            width: c.WIDTH_PAWN,
+            height: c.HEIGHT_PAWN
+        });
+        window.Map.layerPawn.draw();
+    };
+    
+    Pawn.prototype.setStroke = function() {
+        var xTileset = 1
+        , yTileset = 2;
+        if (this.color) {
+            xTileset = 2;
+        }
+        if (this.queen) {
+            yTileset = 4;
+        }
+        this.kineticImg.setCrop({
+            x: (xTileset - 1) * c.WIDTH_PAWN,
+            y: (yTileset - 1) * c.HEIGHT_PAWN,
+            width: c.WIDTH_PAWN,
+            height: c.HEIGHT_PAWN
+        });
+        window.Map.layerPawn.draw();
+    };
+    
     Pawn.prototype.delStroke = function() {
-        this.kineticImg.setImage(Resource.images.RESOURCE_PAWN);
+        var xTileset = 1
+        , yTileset = 1;
+        if (this.color) {
+            xTileset = 2;
+        }
+        if (this.queen) {
+            yTileset = 3;
+        }
+        this.kineticImg.setCrop({
+            x: (xTileset - 1) * c.WIDTH_PAWN,
+            y: (yTileset - 1) * c.HEIGHT_PAWN,
+            width: c.WIDTH_PAWN,
+            height: c.HEIGHT_PAWN
+        });
         window.Map.layerPawn.draw();
     };
     
@@ -152,7 +198,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 result = true;
             } else {
                 //click sur une mauvaise case  
-                deplacement = false              
+                deplacement = false;     
                 result = false;
             }
         }
@@ -176,7 +222,7 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 result = true;
             } else {
                 //click sur une mauvaise case
-                deplacement = false
+                deplacement = false;
                 result = false;
             }
         }

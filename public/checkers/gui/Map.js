@@ -8,7 +8,7 @@
 define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], function(c, Resource, Pawn, Util) {
         return {
             init: function(callback) {
-                this.jsonData = JSON.parse(Util.getMapJSON("damier"));
+                this.jsonData = JSON.parse(Util.getMapJSON("wood"));
                 
                 this.layerMap = new Kinetic.Layer();
                 this.layerPawn = new Kinetic.Layer();                
@@ -30,8 +30,9 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                     for(var j = 0, k = this.jsonData.map[i].length ; j < k ; j++) {
                         var coordinate = Util.posToCoordinate(j, i);
                         var xTileset = this.jsonData.map[i][j] % this.jsonData.size[0];
-                        if(xTileset == 0) xTileset = this.jsonData.map[i][j];
+                        if(xTileset == 0) xTileset = this.jsonData.size[0];
                         var yTileset = Math.ceil(this.jsonData.map[i][j] / this.jsonData.size[0]);
+                        
                         var tileset = new Kinetic.Image({
                              x: coordinate[0],
                              y: coordinate[1],
@@ -89,12 +90,12 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                     for(var j = 0, k = this.grid[i].length ; j < k ; j++) {
                         //si il y a un pion
                         if (typeof this.grid[i][j] == "object") {
-                            var coordinate = Util.posToCoordinate(j, i);
+                            var coordinate = Util.posToCoordinate(j, i, 'pawn');
                             //on set sa position
                             this.grid[i][j].posX = j;
                             this.grid[i][j].posY = i;
                             //on le dessine
-                            this.grid[i][j].draw(coordinate[0] + c.MARGIN_WIDTH, coordinate[1] + c.MARGIN_HEIGHT);
+                            this.grid[i][j].draw(coordinate[0], coordinate[1]);
                         }
                     }
                 }

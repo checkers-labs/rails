@@ -10,13 +10,12 @@ define([], function() {
             HEIGHT_PAWN     : 40,
             MARGIN_WIDTH    : (60 - 40)/2,
             MARGIN_HEIGHT   : (60 - 40)/2,
-            PADDING         : 32,
+            PADDING         : 60,
 
             //Ressources
             RESOURCES: { 
-                RESOURCE_TILE        : '/checkers/resources/tile.png',
-                RESOURCE_PAWN        : '/checkers/resources/pawn.png',
-                RESOURCE_PAWN_OVER   : '/checkers/resources/pawn_over.png'
+                RESOURCE_TILE   : '/checkers/resources/my_tile_wood.png',
+                RESOURCE_PAWN   : '/checkers/resources/my_pawn_wood.png'
             }
         };
         return constant;

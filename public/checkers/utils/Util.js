@@ -15,12 +15,20 @@ define([ 'libraries/oXHR', 'config/constants' ], function(oXHR, c) {
             }
             return xhr.responseText;
         },
-        coordinateToPos : function(x, y) {
-            var coordinate = new Array(x / c.WIDTH_TILE, y / c.HEIGHT_TILE);
+        coordinateToPos : function(x, y, type) {
+            if (type == 'pawn') {
+                var coordinate = new Array((x-c.PADDING) / c.WIDTH_TILE, (y-c.PADDING) / c.HEIGHT_TILE);
+            } else {
+                var coordinate = new Array(x / c.WIDTH_TILE, y / c.HEIGHT_TILE);
+            }
             return coordinate;
         },
-        posToCoordinate : function(x, y) {
-            var coordinate = new Array(x * c.WIDTH_TILE, y * c.HEIGHT_TILE);
+        posToCoordinate : function(x, y, type) {
+            if (type == 'pawn') {
+                var coordinate = new Array(x * c.WIDTH_TILE + c.MARGIN_WIDTH + c.PADDING, y * c.HEIGHT_TILE + c.MARGIN_HEIGHT + c.PADDING);
+            } else {
+                var coordinate = new Array(x * c.WIDTH_TILE, y * c.HEIGHT_TILE);
+            }
             return coordinate;
         },
         addAlert : function(text, type) {
