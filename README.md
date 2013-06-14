@@ -6,4 +6,4 @@ Now the checker game in html5 using canvas is integrate in the index page when y
 *UPDATE 2* : 
 2/3 features are done, we can now play with everyone or play at 2 on the same computer. We will implement the IA soon.
 
-![screenshot](/screenshot.PNG)
+![screenshot](/screenshot.png)
