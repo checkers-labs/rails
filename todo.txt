@@ -1,3 +1,0 @@
-BUGS : 
-Coté client : 
-    Bug lors que notre pion devient reine et qu'il peut sauter apres.

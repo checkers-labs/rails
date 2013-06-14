@@ -66,16 +66,16 @@ define(['config/constants', 'utils/Resource', 'class/Pawn', 'utils/Util'], funct
                                         selectedPawn.again = true;
                                     }
                                     console.log('again',again);
-                                    if (window.mod != "single") {
-                                        Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], again);
+                                    if (window.mod == "single") {
+                                        Util.switchTurn(again);
                                     } else {
-                                        Util.switchTurn();
+                                        Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], again);
                                     }
                                 } else if (jumpedMove == false) {
-                                    if (window.mod != "single") {
-                                        Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], false);
+                                    if (window.mod == "single") {
+                                        Util.switchTurn(false);
                                     } else {
-                                        Util.switchTurn();
+                                        Util.sendMove([posPawn.x,posPawn.y], [this.getX(), this.getY()], false);
                                     }
                                 }
                             }

@@ -45,14 +45,17 @@ define([ 'libraries/oXHR', 'config/constants' ], function(oXHR, c) {
         supprAlert : function() {
             $('.alert-error').hide();
         },
-        switchTurn : function() {
+        switchTurn : function(again) {
             window.maxTurn--;
             if (window.maxTurn == 0) {
                 alert('finish');
             }
-            window.turn = window.turn == 1 ? 0 : 1;
-            window.player = window.player == 1 ? 0 : 1;
-            this.addAlert("C'est à votre adversaire de jouer !", "info");
+            if (!again) {
+                console.log("switchTurn");
+                window.turn = window.turn == 1 ? 0 : 1;
+                window.player = window.player == 1 ? 0 : 1;
+                this.addAlert("C'est à votre adversaire de jouer !", "info");
+            }
         },
         sendMove : function(posBefore, posAfter, again) {
             var self = this;

@@ -82,6 +82,8 @@ define(['config/constants', 'utils/Resource', 'utils/Util'], function(c, Resourc
                 callback: function() {
                     if(!self.again) {
                         self.delStroke();
+                    } else {
+                        self.setStroke();
                     }
                 }
             });
